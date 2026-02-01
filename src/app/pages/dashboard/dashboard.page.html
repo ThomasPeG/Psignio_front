@@ -1,0 +1,74 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="editProfile()" color="light">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logout()" color="light">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <h1 class="ion-text-center ion-margin-bottom" style="color: white;">Mi Panel</h1>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="user-welcome ion-text-center ion-margin-bottom" *ngIf="user">
+    <h2>¡Hola, {{ user.name || user.email }}!</h2>
+    <p class="premium-badge" *ngIf="user.isPremium">🌟 Miembro Premium</p>
+    <p class="free-badge" *ngIf="!user.isPremium">Usuario Gratuito</p>
+  </div>
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+    <p style="color: white;">Cargando tu historial...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    
+    <div class="section-title">
+      <h3>Mis Resultados</h3>
+    </div>
+
+    <div *ngIf="history.length === 0" class="empty-state ion-text-center">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <p>Aún no has realizado ningún test.</p>
+      <ion-button expand="block" class="white-btn" (click)="startNewQuiz()">Comenzar Quiz</ion-button>
+    </div>
+
+    <div class="history-list" *ngIf="history.length > 0">
+      <div *ngFor="let attempt of history" class="history-card" (click)="viewResult(attempt)">
+        <div class="card-content">
+          <div class="card-info">
+            <h3 class="result-title">{{ attempt.resultTypeName || 'Resultado' }}</h3>
+            <p class="result-date">{{ attempt.date | date:'mediumDate' }}</p>
+          </div>
+          <div class="card-actions">
+            <ion-button fill="clear" size="small" (click)="shareResult(attempt, $event)">
+              <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" size="small">
+              <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ion-margin-top" *ngIf="history.length > 0">
+      <ion-button expand="block" class="white-btn" (click)="startNewQuiz()">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Nuevo Test
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

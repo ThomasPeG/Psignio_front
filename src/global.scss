@@ -1,0 +1,112 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * ESTILOS GLOBALES MINIMALISTAS
+ * Optimizados para reducir código y reutilizar clases
+ */
+
+/* 1. Tipografía Base */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  margin-top: 0;
+}
+
+/* 2. Contenedores Estándar (Tarjetas / Sheets) */
+.white-container {
+  background: var(--app-card-bg);
+  border-radius: var(--app-card-radius);
+  color: var(--app-text-dark); /* Texto oscuro dentro de tarjetas blancas */
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* 3. Botones Blancos (Estilo Píldora) */
+/* Se aplica globalmente a cualquier ion-button con clase 'white-btn' o por defecto si decidimos */
+.white-btn {
+  --background: var(--app-btn-bg);
+  --color: var(--app-text-dark);
+  --border-radius: var(--app-btn-radius);
+  --box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  
+  font-weight: 600;
+  text-transform: none;
+  font-size: 1rem;
+  height: 50px;
+  margin-bottom: 12px;
+}
+
+/* 4. Inputs Limpios */
+ion-input, ion-textarea {
+  --background: rgba(255, 255, 255, 0.5); /* Blanco semi-transparente */
+  --color: var(--app-text-dark);
+  --placeholder-color: #666;
+  --padding-start: 16px;
+  border-radius: var(--app-btn-radius);
+  margin-bottom: 15px;
+}
+
+/* 5. Utilidad de Fondo */
+.bg-transparent {
+  --background: transparent;
+}
+
+/* 6. Corrección de Overlays (Loading, Alert, Toast) */
+/* Forzamos que los overlays tengan fondo blanco y texto oscuro visible */
+
+ion-loading {
+  --background: #ffffff;
+  --spinner-color: var(--ion-color-primary);
+  color: #333333; /* Soft black */
+  
+  .loading-content {
+    color: #333333 !important;
+    font-weight: 500;
+  }
+}
+
+ion-alert {
+  --background: #ffffff;
+  --color: #333333;
+  
+  .alert-title, .alert-message {
+    color: #333333 !important;
+  }
+  
+  .alert-button {
+    color: var(--ion-color-primary) !important;
+  }
+
+  /* Para que el backdrop no oscurezca demasiado si se desea */
+  --backdrop-opacity: 0.4; 
+}
+
+ion-toast {
+  --background: #ffffff;
+  --color: #333333;
+  --button-color: var(--ion-color-primary);
+  --box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-weight: 500;
+}

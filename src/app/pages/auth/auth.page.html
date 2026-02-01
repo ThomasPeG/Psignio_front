@@ -1,0 +1,23 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="auth-container ion-text-center">
+    
+    <h1 class="ion-margin-bottom" style="color: white;">Bienvenido</h1>
+
+    <div>
+      <ion-icon name="person-circle-outline" size="large" style="font-size: 80px; color: white; opacity: 0.9;"></ion-icon>
+      <h2 style="color: white;">Inicia Sesión</h2>
+      <p style="color: rgba(255,255,255,0.9);">Accede a tu historial de tests y perfil.</p>
+    </div>
+
+    <app-auth-form (authSuccess)="onAuthSuccess($event)"></app-auth-form>
+
+  </div>
+</ion-content>

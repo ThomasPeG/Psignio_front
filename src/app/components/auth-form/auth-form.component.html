@@ -1,0 +1,34 @@
+<div class="buttons-container">
+  <ion-button expand="block" class="google-btn" (click)="loginWithGoogle()">
+    <ion-icon name="logo-google" slot="start"></ion-icon>
+    Continuar con Google
+  </ion-button>
+  
+  <ion-button expand="block" fill="outline" class="email-toggle-btn" (click)="showEmailForm = !showEmailForm">
+    <ion-icon name="mail-outline" slot="start"></ion-icon>
+    Usar Correo y Contraseña
+  </ion-button>
+</div>
+
+<div *ngIf="showEmailForm" class="white-container ion-margin-top email-form">
+  <ion-item *ngIf="isRegister" class="custom-item">
+    <ion-label position="floating">Nombre Completo</ion-label>
+    <ion-input type="text" [(ngModel)]="name"></ion-input>
+  </ion-item>
+  <ion-item class="custom-item">
+    <ion-label position="floating">Correo Electrónico</ion-label>
+    <ion-input type="email" [(ngModel)]="email"></ion-input>
+  </ion-item>
+  <ion-item class="custom-item">
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+  
+  <ion-button expand="block" class="white-btn action-btn ion-margin-top" (click)="submitEmailForm()">
+    {{ isRegister ? 'Registrarse' : 'Iniciar Sesión' }}
+  </ion-button>
+
+  <ion-button expand="block" fill="clear" size="small" class="switch-mode-btn" (click)="toggleMode()">
+    {{ isRegister ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate' }}
+  </ion-button>
+</div>

@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <!-- Custom Back Button logic -->
+      <ion-button (click)="handleBack()" color="light">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="questions.length > 0" class="question-wrapper">
+    
+    <!-- Top Section: Question Text -->
+    <div class="question-header">
+      <span class="question-number">Pregunta {{ currentQuestionIndex + 1 }} de {{ questions.length }}</span>
+      <h2 class="question-text">{{ currentQuestion.text }}</h2>
+    </div>
+
+    <!-- Bottom Sheet: Options -->
+    <div class="white-container options-sheet">
+      <h3 class="options-title">Selecciona una respuesta</h3>
+      
+      <div class="options-list">
+        <ion-button 
+          *ngFor="let option of currentQuestion.options" 
+          expand="block" 
+          class="white-btn"
+          [class.selected-option]="isOptionSelected(option.value)"
+          (click)="selectOption(option.value)">
+          {{ option.label }}
+          <ion-icon *ngIf="isOptionSelected(option.value)" slot="end" name="checkmark-circle"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+    
+  </div>
+
+</ion-content>

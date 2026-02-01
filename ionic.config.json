@@ -1,0 +1,7 @@
+{
+  "name": "personality-quiz",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

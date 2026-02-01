@@ -1,0 +1,123 @@
+
+/* Reusing card styles from result-preview to ensure consistency */
+ion-card {
+  --background: var(--app-card-bg, #ffffff);
+  border-radius: var(--app-card-radius, 24px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+  ion-card-header, ion-card-content {
+    --color: var(--app-text-dark, #333333);
+    color: var(--app-text-dark, #333333);
+  }
+
+  ion-card-title {
+    --color: var(--ion-color-primary);
+    color: var(--ion-color-primary);
+    font-weight: 800;
+  }
+
+  ion-card-subtitle {
+    --color: #666;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  p, h3 {
+    color: var(--app-text-dark, #333333);
+  }
+}
+
+/* Specific styling for list items inside cards (Work, Social, Money sections) */
+ion-item {
+  --background: transparent;
+  --color: #333;
+  --padding-start: 0;
+  
+  ion-icon {
+    font-size: 24px;
+    margin-right: 16px;
+    color: var(--ion-color-primary); /* Default icon color */
+  }
+
+  /* Specific icon colors if needed, though they are set in HTML mostly */
+  ion-icon[color="danger"] { color: var(--ion-color-danger); }
+  ion-icon[color="success"] { color: var(--ion-color-success); }
+  ion-icon[color="warning"] { color: var(--ion-color-warning); }
+  
+  h3 {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+  }
+}
+
+/* Bullet points styling */
+ul {
+  padding-left: 20px;
+  li {
+    margin-bottom: 8px;
+    color: #333;
+    line-height: 1.4;
+  }
+}
+
+.light-side h4 { color: #d4af37; font-weight: bold; margin-bottom: 10px; }
+.shadow-side h4 { color: #555; font-weight: bold; margin-bottom: 10px; }
+.shadow-warning h4 { color: var(--ion-color-danger); font-weight: bold; margin-bottom: 10px; }
+
+/* Section Titles on the dark background */
+.section-title h2 {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Button overrides to match app standard */
+.action-btn {
+  --background: #ffffff;
+  --color: #333333;
+  --border-radius: 50px;
+  font-weight: 700;
+  height: 52px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.secondary-btn {
+  --color: #ffffff;
+  --border-color: #ffffff;
+  --border-width: 2px;
+  --border-radius: 50px;
+  --background: transparent;
+  font-weight: 600;
+  height: 50px;
+}
+
+/* Ensure blur container looks right in fallback */
+.blur-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.lock-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}

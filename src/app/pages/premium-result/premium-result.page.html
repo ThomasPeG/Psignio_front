@@ -1,0 +1,231 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <h1 class="ion-text-center" style="color: white; margin-bottom: 20px;">Análisis Completo</h1>
+
+  <!-- Fallback: Preview UI if full result is missing -->
+  <div *ngIf="result && !result.result && result.preview" class="ion-text-center">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Parece que eres un...</ion-card-subtitle>
+        <ion-card-title color="primary" style="font-size: 2em;">{{ result.preview.typeName }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p style="font-size: 1.2em; font-style: italic;">"{{ result.preview.snippet }}"</p>
+        
+        <div class="blur-container ion-margin-top" style="position: relative;">
+          <div style="filter: blur(4px); user-select: none; opacity: 0.6;">
+            <h3>Tu Estilo en el Trabajo</h3>
+            <p>Descubre cómo te comportas bajo presión, tus roles ideales y lo que debes evitar para no quemarte.</p>
+            <h3>Tus Relaciones Sociales</h3>
+            <p>Entiende tu vibra natural, cómo pones límites y qué tipo de personas te complementan mejor.</p>
+            <h3>Tu Relación con el Dinero</h3>
+            <p>Conoce tu talento oculto para generar riqueza y tu mayor riesgo financiero.</p>
+          </div>
+          
+          <div class="lock-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; width: 80%;">
+            <ion-icon name="lock-closed" size="large" color="medium"></ion-icon>
+            <p style="font-weight: bold; color: #333;">Análisis Completo Bloqueado</p>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" class="action-btn ion-margin-top" (click)="goToPayment()">
+      Desbloquear Informe Completo
+      <ion-icon slot="end" name="card"></ion-icon>
+    </ion-button>
+    <p class="ion-text-small ion-margin-top" style="color: rgba(255,255,255,0.8);">Obtén tu perfil detallado, consejos de carrera y relaciones por solo $4.99</p>
+
+    <ion-button expand="block" fill="outline" class="secondary-btn ion-margin-top" (click)="goToDashboard()">
+      Ir a mi Panel / Historial
+      <ion-icon slot="end" name="grid-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Full Result UI -->
+  <div *ngIf="result && result.result">
+    <!-- DOMINANT ARCHETYPE -->
+    <ion-card class="archetype-card dominant">
+      <img [src]="result.result.dominant.image_url" alt="Dominant Archetype" *ngIf="result.result.dominant.image_url" />
+      <ion-card-header>
+        <ion-card-subtitle>Tu Arquetipo Dominante</ion-card-subtitle>
+        <ion-card-title>{{ result.result.dominant.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="description">{{ result.result.dominant.description_full }}</p>
+        
+        <div class="bullets-container ion-margin-top">
+          <div class="light-side">
+             <h4>✨ Luces</h4>
+             <ul>
+               <li *ngFor="let item of result.result.dominant.lightBullets">{{ item }}</li>
+             </ul>
+          </div>
+          <div class="shadow-side ion-margin-top">
+             <h4>🌑 Sombras</h4>
+             <ul>
+               <li *ngFor="let item of result.result.dominant.shadowBullets">{{ item }}</li>
+             </ul>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SECONDARY ARCHETYPE -->
+    <ion-card class="archetype-card secondary">
+      <ion-card-header>
+        <ion-card-subtitle>Tu Arquetipo Secundario</ion-card-subtitle>
+        <ion-card-title>{{ result.result.secondary.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ result.result.secondary.description_full }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SHADOW ARCHETYPE -->
+    <ion-card class="archetype-card shadow">
+      <ion-card-header>
+        <ion-card-subtitle>Tu Reacción bajo Estrés</ion-card-subtitle>
+        <ion-card-title>{{ result.result.shadow.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ result.result.shadow.description_full }}</p>
+         <div class="shadow-warning ion-margin-top">
+             <h4>⚠️ Alerta de Sombra</h4>
+             <ul>
+               <li *ngFor="let item of result.result.shadow.shadowBullets">{{ item }}</li>
+             </ul>
+          </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- COMPATIBILITY SECTION -->
+    <div class="section-title ion-padding-top">
+      <h2>❤️ Compatibilidad y Pareja</h2>
+    </div>
+    <ion-card class="domain-card couple">
+      <ion-card-header>
+         <ion-card-title>Parejas Ideales</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf="result.result.dominant.pareja && result.result.dominant.pareja.length > 0">
+          <ion-item lines="none" *ngFor="let match of result.result.dominant.pareja" class="ion-margin-bottom">
+            <ion-icon name="heart" slot="start" color="danger"></ion-icon>
+            <ion-label class="ion-text-wrap">
+              <p style="font-size: 1rem; color: #333;">{{ match }}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+        <p *ngIf="!result.result.dominant.pareja || result.result.dominant.pareja.length === 0">
+          No hay información de compatibilidad disponible.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- WORK SECTION -->
+    <div class="section-title ion-padding-top">
+      <h2>💼 Tu Estilo en el Trabajo</h2>
+    </div>
+    <ion-card class="domain-card work">
+      <ion-card-header>
+         <ion-card-title>{{ result.result.work.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="result.result.work.trabajo">
+        <ion-item lines="none">
+          <ion-icon name="briefcase-outline" slot="start"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Roles Ideales</h3>
+            <p>{{ result.result.work.trabajo.roles }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="desktop-outline" slot="start"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Ambiente Ideal</h3>
+            <p>{{ result.result.work.trabajo.ambiente }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="warning-outline" slot="start" color="danger"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Lo que debes evitar</h3>
+            <p>{{ result.result.work.trabajo.evita }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SOCIAL SECTION -->
+    <div class="section-title ion-padding-top">
+      <h2>🤝 Relaciones Sociales</h2>
+    </div>
+    <ion-card class="domain-card social">
+      <ion-card-header>
+         <ion-card-title>{{ result.result.social.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="result.result.social.social">
+        <ion-item lines="none">
+          <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Tu Vibra</h3>
+            <p>{{ result.result.social.social.vibra }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="hand-left-outline" slot="start"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Cómo pones límites</h3>
+            <p>{{ result.result.social.social.limite }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- MONEY SECTION -->
+    <div class="section-title ion-padding-top">
+      <h2>💰 Tu Relación con el Dinero</h2>
+    </div>
+    <ion-card class="domain-card money">
+      <ion-card-header>
+         <ion-card-title>{{ result.result.money.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="result.result.money.dinero">
+        <ion-item lines="none">
+          <ion-icon name="trending-up-outline" slot="start" color="success"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Talento Financiero</h3>
+            <p>{{ result.result.money.dinero.talento }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="alert-circle-outline" slot="start" color="warning"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Riesgo Principal</h3>
+            <p>{{ result.result.money.dinero.riesgo }}</p>
+          </ion-label>
+        </ion-item>
+         <ion-item lines="none">
+          <ion-icon name="book-outline" slot="start"></ion-icon>
+          <ion-label class="ion-text-wrap">
+            <h3>Regla de Oro</h3>
+            <p>{{ result.result.money.dinero.regla }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-margin-top ion-text-center ion-margin-bottom">
+      <ion-button fill="outline" class="secondary-btn" expand="block" (click)="goToDashboard()">Ir a mi Panel / Historial</ion-button>
+    </div>
+  </div>
+
+</ion-content>

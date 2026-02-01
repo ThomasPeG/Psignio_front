@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
+
+  <h1 class="ion-text-center" style="color: white; margin-bottom: 20px;">
+    {{ (result || hasPendingAnswers) ? 'Tu Resultado' : 'Cargando...' }}
+  </h1>
+
+  <div *ngIf="!result && !hasPendingAnswers" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando tu resultado...</p>
+  </div>
+
+  <!-- STATE: AUTH REQUIRED (Pending Answers) -->
+  <div *ngIf="!result && hasPendingAnswers" class="auth-container">
+    <div class="blur-preview-container ion-margin-bottom">
+      <img src="assets/types/1.png" class="blur-image" style="width: 150px; height: 150px; border-radius: 50%; filter: blur(10px); opacity: 0.8;" />
+      <div class="lock-icon" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <ion-icon name="lock-closed" style="font-size: 40px; color: white;"></ion-icon>
+      </div>
+    </div>
+    
+    <h2 style="color: white;">¡Análisis Listo!</h2>
+    <p style="color: rgba(255,255,255,0.9); margin-bottom: 20px;">
+      Hemos calculado tu arquetipo. Inicia sesión o regístrate para guardarlo y descubrir quién eres.
+    </p>
+
+    <app-auth-form (authSuccess)="onAuthSuccess($event)"></app-auth-form>
+  </div>
+
+  <!-- STATE: RESULT AVAILABLE -->
+  <div *ngIf="result && result.preview">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Parece que eres un...</ion-card-subtitle>
+        <ion-card-title color="primary" style="font-size: 2em;">{{ result.preview.typeName }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p style="font-size: 1.2em; font-style: italic;">"{{ result.preview.snippet }}"</p>
+        
+        <div class="blur-container ion-margin-top" style="position: relative;">
+          <div style="filter: blur(4px); user-select: none; opacity: 0.6;">
+            <h3>Tu Estilo en el Trabajo</h3>
+            <p>Descubre cómo te comportas bajo presión, tus roles ideales y lo que debes evitar para no quemarte.</p>
+            <h3>Tus Relaciones Sociales</h3>
+            <p>Entiende tu vibra natural, cómo pones límites y qué tipo de personas te complementan mejor.</p>
+            <h3>Tu Relación con el Dinero</h3>
+            <p>Conoce tu talento oculto para generar riqueza y tu mayor riesgo financiero.</p>
+          </div>
+          
+          <div class="lock-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; width: 80%;">
+            <ion-icon name="lock-closed" size="large" color="medium"></ion-icon>
+            <p style="font-weight: bold; color: #333;">Análisis Completo Bloqueado</p>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" class="ion-margin-top action-btn" (click)="goToPayment()">
+      Desbloquear Informe Completo
+      <ion-icon slot="end" name="card"></ion-icon>
+    </ion-button>
+    <p class="ion-text-small ion-margin-top" style="color: rgba(255,255,255,0.8);">Obtén tu perfil detallado, consejos de carrera y relaciones por solo $4.99</p>
+
+    <ion-button expand="block" fill="outline" class="secondary-btn ion-margin-top" (click)="goToDashboard()">
+      Ir a mi Panel / Historial
+      <ion-icon slot="end" name="grid-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div *ngIf="result && !result.preview">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>No hay vista previa disponible</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>No se encontraron detalles del resultado para mostrar.</p>
+        <ion-button expand="block" class="ion-margin-top" (click)="goToDashboard()">
+          Ver Historial de Resultados
+          <ion-icon slot="end" name="list-outline"></ion-icon>
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="goHome()">
+          Ir al Inicio
+          <ion-icon slot="end" name="home-outline"></ion-icon>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-loading [isOpen]="isLoading" message="Guardando resultado..."></ion-loading>
+
+</ion-content>

@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true">
+  <div class="home-wrapper">
+    
+    <!-- Top Content -->
+    <div class="header-content">
+      <div class="logo-circle">
+        <ion-icon name="prism"></ion-icon>
+      </div>
+      <h1>Descubre tu<br>Arquetipo</h1>
+      <p class="subtitle">Explora tu personalidad con nuestro test basado en psicología junguiana.</p>
+    </div>
+
+    <!-- Bottom Sheet (Blanco Semi-Transparente) -->
+    <div class="white-container bottom-sheet">
+      <ion-button expand="block" class="white-btn" (click)="startQuiz()">
+        Comenzar Test
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+
+      <ion-button expand="block" fill="clear" class="secondary-action" (click)="login()">
+        Ya tengo cuenta
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

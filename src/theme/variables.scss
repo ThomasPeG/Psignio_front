@@ -1,0 +1,103 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+:root {
+  /* --- PALETA DE COLORES ÚNICA (Minimalista) --- */
+  
+  /* Color Principal (Fondo Global) */
+  --ion-color-primary: #9281ab;
+  --ion-color-primary-rgb: 146, 129, 171;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #807296;
+  --ion-color-primary-tint: #9d8db4;
+
+  /* Color Secundario (Blanco para elementos) */
+  --ion-color-secondary: #ffffff;
+  --ion-color-secondary-rgb: 255, 255, 255;
+  --ion-color-secondary-contrast: #333333; /* Negro suave */
+  --ion-color-secondary-contrast-rgb: 51, 51, 51;
+  --ion-color-secondary-shade: #e0e0e0;
+  --ion-color-secondary-tint: #ffffff;
+
+  /* Color Terciario (Negro Suave para textos) */
+  --ion-color-tertiary: #333333;
+  --ion-color-tertiary-rgb: 51, 51, 51;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #2d2d2d;
+  --ion-color-tertiary-tint: #474747;
+
+  /* Otros colores del sistema (se mantienen por compatibilidad) */
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c4f;
+  --ion-color-danger-tint: #ed576b;
+
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9d9fa6;
+
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 245, 248;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+
+  /* --- VARIABLES PERSONALIZADAS SIMPLIFICADAS --- */
+  
+  /* Fondo General */
+  --app-bg-color: #9281ab;
+  
+  /* Texto */
+  --app-text-main: #ffffff; /* Texto sobre fondo morado */
+  --app-text-dark: #333333; /* Texto sobre fondo blanco */
+  
+  /* Contenedores */
+  --app-card-bg: rgba(255, 255, 255, 0.92); /* Blanco con ligera transparencia */
+  --app-card-radius: 24px;
+  
+  /* Botones */
+  --app-btn-bg: #ffffff;
+  --app-btn-text: #333333;
+  --app-btn-radius: 50px; /* Estilo Píldora */
+
+  /* System Overrides - Forzamos el mismo tema siempre */
+  --ion-background-color: var(--app-bg-color);
+  --ion-text-color: var(--app-text-main);
+  --ion-toolbar-background: transparent;
+  --ion-toolbar-color: var(--app-text-main);
+}
+
+/* Eliminamos diferencias de Dark Mode para mantener consistencia visual */
+@media (prefers-color-scheme: dark) {
+  /* Hereda todo de :root, no hay cambios */
+}

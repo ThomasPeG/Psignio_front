@@ -1,0 +1,93 @@
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Google Button - Custom Blue */
+.google-btn {
+  --background: #4285F4 !important;
+  --color: white !important;
+  --border-radius: 50px;
+  --box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+  font-weight: 500;
+  text-transform: none;
+  margin: 0;
+}
+
+/* Email Toggle Button - White Outline */
+.email-toggle-btn {
+  --border-color: #ffffff;
+  --border-style: solid;
+  --border-width: 2px;
+  --color: white;
+  --border-radius: 50px;
+  font-weight: 600;
+  text-transform: none;
+  margin: 0;
+  opacity: 1;
+}
+
+/* Form Container - White Card */
+.white-container {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Inputs styling */
+.custom-item {
+  --background: transparent;
+  --border-color: #e0e0e0;
+  --color: #333;
+  --placeholder-color: #666;
+  --padding-start: 0;
+  margin-bottom: 8px;
+  
+  ion-label {
+    color: #666 !important;
+  }
+  
+  ion-input {
+    --color: #333;
+  }
+}
+
+/* Login/Register Button inside form - Primary Color */
+.action-btn {
+  --background: var(--ion-color-primary);
+  --color: white;
+  --border-radius: 50px;
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-top: 24px;
+}
+
+/* Switch Mode Link */
+.switch-mode-btn {
+  --color: #666;
+  text-transform: none;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.small-text {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}

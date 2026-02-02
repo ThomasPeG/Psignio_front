@@ -5,6 +5,7 @@ import { tap, switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
+import { environment } from '../../environments/environment';
 
 export interface User {
   _id: string;
@@ -25,7 +26,7 @@ declare var google: any;
 })
 export class AuthService {
   // Usar IP local para permitir acceso desde Android/iOS y Web en la misma red
-  private baseUrl = 'http://192.168.1.126:3000/api';
+  private baseUrl = environment.apiUrl;
   private apiUrl = `${this.baseUrl}/auth`;
   private _authState = new BehaviorSubject<User | null>(null);
 

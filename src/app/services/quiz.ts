@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Question, QuizResultResponse, QuizHistoryItem } from '../models/quiz.models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class QuizService {
   
   // TODO: Ajusta esta URL a la dirección de tu backend real
   // Usar IP local para permitir acceso desde Android/iOS y Web en la misma red
-  private apiUrl = 'http://192.168.1.126:3000/api';
+  private apiUrl = environment.apiUrl;
   
   public lastResult: QuizResultResponse | undefined;
 

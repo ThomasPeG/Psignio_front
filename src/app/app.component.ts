@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from './services/storage.service';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +11,24 @@ import { StorageService } from './services/storage.service';
   standalone: false,
 })
 export class AppComponent {
-  constructor(private storage: StorageService, private router: Router) {
+  constructor(
+    private storage: StorageService, 
+    private router: Router,
+    private platform: Platform
+  ) {
     this.initializeApp();
   }
 
   async initializeApp() {
+    // Inicializar Google Auth
+    this.platform.ready().then(() => {
+      GoogleAuth.initialize({
+        clientId: '371284904600-40l8dqsed8n6qgedgrgo8fqnl0enimvf.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+        grantOfflineAccess: true,
+      });
+    });
+
     // Inicializar almacenamiento
     await this.storage.init();
     

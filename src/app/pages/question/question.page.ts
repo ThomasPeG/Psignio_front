@@ -17,6 +17,7 @@ export class QuestionPage implements OnInit {
   currentQuestionIndex: number = 0;
   answers: {questionId: number, value: number}[] = [];
   progress: number = 0;
+  isLoading: boolean = true;
 
   // Opciones por defecto (Escala Likert)
   private defaultOptions: QuizOption[] = [
@@ -35,6 +36,7 @@ export class QuestionPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.quizService.getQuestions().subscribe({
       next: async (data) => {
         console.log('Preguntas recibidas:', data);
@@ -49,9 +51,11 @@ export class QuestionPage implements OnInit {
           this.answers = savedAnswers;
           this.updateProgress();
         }
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error al cargar preguntas:', err);
+        this.isLoading = false;
       }
     });
   }

@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">personality-quiz</string>
     <string name="title_activity_main">personality-quiz</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">com.psingnio.quiz</string>
+    <string name="custom_url_scheme">com.psingnio.quiz</string>
+    <string name="server_client_id">371284904600-40l8dqsed8n6qgedgrgo8fqnl0enimvf.apps.googleusercontent.com</string>
 </resources>

@@ -11,7 +11,13 @@
 
 <ion-content [fullscreen]="true">
 
-  <div *ngIf="questions.length > 0" class="question-wrapper">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+    <p>Cargando preguntas...</p>
+  </div>
+
+  <div *ngIf="!isLoading && questions.length > 0" class="question-wrapper">
     
     <!-- Top Section: Question Text -->
     <div class="question-header">

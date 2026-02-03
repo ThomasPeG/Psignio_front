@@ -1,8 +1,9 @@
 .home-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%; /* Usar height 100% del ion-content */
   justify-content: space-between;
+  overflow: hidden; /* Evitar scroll en el wrapper principal */
 }
 
 .header-content {
@@ -10,7 +11,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 60px 24px;
+  padding: 40px 24px;
+  overflow-y: auto; /* Permitir scroll si el contenido es demasiado largo incluso en modo compacto */
 }
 
 .logo-circle {
@@ -23,6 +25,7 @@
   justify-content: center;
   margin-bottom: 30px;
   backdrop-filter: blur(8px);
+  flex-shrink: 0;
 
   ion-icon {
     font-size: 40px;
@@ -45,12 +48,64 @@ h1 {
 
 .bottom-sheet {
   /* Estilos específicos que extienden .white-container */
+  background: white;
+  border-radius: 24px 24px 0 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  padding: 40px 24px;
+  padding: 50px 24px calc(30px + env(safe-area-inset-bottom)) 24px; /* +20px padding top */
+  
+  /* Fijar altura/comportamiento */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 230px; /* +30px altura mínima */
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  z-index: 10;
 }
 
 .secondary-action {
   --color: #666; /* Un poco más suave que el negro puro */
   margin-top: 10px;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS FOR SHORT SCREENS --- */
+@media (max-height: 700px) {
+  .header-content {
+    justify-content: flex-end; /* Empujar contenido hacia abajo cerca del bottom sheet */
+    padding-bottom: 20px;
+  }
+
+  /* Contenedor flexible para logo y título en una línea */
+  .header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+  
+  /* Modificamos el comportamiento por defecto si detectamos pantalla corta */
+  .logo-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    margin-bottom: 0; /* Quitamos margen inferior */
+    
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+    br {
+      display: none; /* Quitamos salto de línea en título */
+    }
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
 }

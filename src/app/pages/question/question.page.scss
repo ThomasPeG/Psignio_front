@@ -3,11 +3,14 @@
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  overflow: hidden; /* Evita que la página completa haga scroll, controlamos áreas internas */
 }
 
 .question-header {
-  padding: 40px 24px;
-  /* El color de texto ya se hereda como blanco desde :root */
+  padding: 20px 24px;
+  flex-shrink: 0; /* Evita que el encabezado se encoja demasiado */
+  max-height: 45vh; /* Limita la altura del encabezado para dejar espacio a respuestas */
+  overflow-y: auto; /* Permite scroll en la pregunta si es muy larga */
 }
 
 .question-number {
@@ -20,30 +23,47 @@
 }
 
 .question-text {
-  font-size: 1.8rem;
+  font-size: 1.6rem; /* Reducido ligeramente para pantallas pequeñas */
   line-height: 1.3;
 }
 
 .options-sheet {
   /* Extiende .white-container con ajustes específicos */
+  background: white;
+  border-radius: 24px 24px 0 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  padding: 30px 24px 50px 24px;
-  min-height: 55vh;
+  padding: 30px 24px 0 24px; /* Padding inferior movido al contenedor scrolleable */
+  
+  /* Flexbox para manejar el contenido interno */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ocupa el espacio restante */
+  min-height: 0; /* Importante para que el scroll funcione dentro de flex */
+  
   animation: slideUp 0.4s ease-out;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
 }
 
 .options-title {
   font-size: 1rem;
   color: #666;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .options-list {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Aumentado un poco el espacio */
+  gap: 12px;
+  
+  /* Habilitar scroll */
+  overflow-y: auto;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom)); /* Espacio seguro para navegación */
+  
+  /* Scroll suave */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Estilo para opción seleccionada */

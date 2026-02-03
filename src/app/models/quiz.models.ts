@@ -27,6 +27,7 @@ export interface PersonalityType {
 }
 
 export interface QuizResultResponse {
+  _id?: string; // The attempt ID
   is_paid: boolean;
   // If Free (Preview only)
   preview?: {
@@ -51,4 +52,6 @@ export interface QuizHistoryItem {
   resultTypeName: string;
   imageUrl?: string;
   snippet?: string;
+  is_paid?: boolean;     // Nuevo campo
+  payment_id?: string;   // Nuevo campo
 }

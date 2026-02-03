@@ -14,6 +14,7 @@ export class AuthFormComponent {
 
   showEmailForm = false;
   isRegister = false;
+  isLoading = false;
   email = '';
   password = '';
   name = '';
@@ -24,6 +25,8 @@ export class AuthFormComponent {
   ) { }
 
   async loginWithGoogle() {
+    if (this.isLoading) return;
+    this.isLoading = true;
     try {
       // Nota: En web esto puede fallar si no está configurado el client ID
       // En dispositivo real usa el plugin nativo
@@ -40,10 +43,14 @@ export class AuthFormComponent {
         buttons: ['OK']
       });
       await alert.present();
+    } finally {
+      this.isLoading = false;
     }
   }
 
   async submitEmailForm() {
+    if (this.isLoading) return;
+
     if (!this.email || !this.password) {
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
@@ -54,10 +61,13 @@ export class AuthFormComponent {
       return;
     }
 
+    this.isLoading = true;
+
     try {
       let result;
       if (this.isRegister) {
         if (!this.name) {
+          this.isLoading = false;
           const alert = await this.alertController.create({
             header: 'Datos incompletos',
             message: 'Por favor ingresa tu nombre.',
@@ -82,6 +92,8 @@ export class AuthFormComponent {
         buttons: ['OK']
       });
       await alert.present();
+    } finally {
+      this.isLoading = false;
     }
   }
 

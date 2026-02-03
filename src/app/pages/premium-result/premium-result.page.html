@@ -1,14 +1,64 @@
 <ion-header class="ion-no-border">
   <ion-toolbar style="--background: transparent;">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard" color="light"></ion-back-button>
+      <ion-button (click)="goToDashboard()" color="light">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center;">Tu Análisis</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refresh()" color="light">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-  <h1 class="ion-text-center" style="color: white; margin-bottom: 20px;">Análisis Completo</h1>
+  <!-- Estado de carga de pago / Verificación -->
+  <div *ngIf="isLoadingPayment" class="loading-overlay">
+    <div class="loading-content">
+      <ion-spinner name="circles" color="primary"></ion-spinner>
+      <h3>Verificando Pago...</h3>
+      <p>Estamos confirmando tu transacción segura.</p>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoadingPayment && result">
+    
+    <!-- HEADER: Si ya está pagado -->
+    <div class="result-header ion-text-center" *ngIf="result.is_paid && result.result">
+      <div class="archetype-icon-wrapper">
+        <img [src]="previewImage" alt="Archetype Icon" class="archetype-icon">
+      </div>
+      <h1 class="archetype-title">{{ result.result.dominant?.name }}</h1>
+      <p class="archetype-subtitle">Tu personalidad revelada</p>
+    </div>
+
+    <!-- HEADER: Si NO está pagado (Preview) -->
+    <div class="result-header ion-text-center locked" *ngIf="!result.is_paid">
+      <div class="archetype-icon-wrapper">
+        <ion-icon name="lock-closed" class="lock-icon"></ion-icon>
+      </div>
+      <h1 class="archetype-title">{{ result.preview?.typeName || 'Resultado Bloqueado' }}</h1>
+      <p class="archetype-subtitle">Pago en proceso o pendiente</p>
+      
+      <div class="pending-payment-msg ion-padding" *ngIf="showPaymentWaitMessage">
+        <p>
+          <ion-icon name="hourglass-outline"></ion-icon>
+          Si acabas de realizar el pago, por favor espera un momento y refresca la página.
+        </p>
+        <ion-button fill="outline" color="light" size="small" (click)="refresh()">
+          <ion-icon name="refresh" slot="start"></ion-icon>
+          Refrescar Estado
+        </ion-button>
+      </div>
+    </div>
 
   <!-- Fallback: Preview UI if full result is missing -->
   <div *ngIf="result && !result.result && result.preview" class="ion-text-center">
@@ -228,4 +278,5 @@
     </div>
   </div>
 
+  </div>
 </ion-content>

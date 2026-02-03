@@ -1,41 +1,70 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/result-preview"></ion-back-button>
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: #f4f5f8;">
+    <ion-title style="font-size: 0.9rem; color: #999; text-transform: uppercase; letter-spacing: 1px;">Checkout Seguro</ion-title>
+    <!-- Botón de cierre opcional si el usuario quiere cancelar -->
+    <ion-buttons slot="end">
+      <ion-button routerLink="/result-preview" color="medium">
+        <ion-icon name="close-circle-outline" size="large"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>Pago Seguro</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content class="ion-padding">
 
-  <div class="ion-text-center ion-margin-bottom">
-    <ion-icon name="lock-closed-outline" size="large" color="success"></ion-icon>
-    <h2>Desbloquear Informe Completo</h2>
-    <p class="price">$4.99 USD</p>
+  <div class="payment-container">
+    
+    <div class="header-section">
+      <div class="secure-badge">
+        <ion-icon name="lock-closed"></ion-icon>
+        <span>Encriptación SSL de 256-bits</span>
+      </div>
+      <h2>Desbloquea tu Potencial</h2>
+      <p class="subtitle">Obtén tu análisis de personalidad completo</p>
+      
+      <div class="price-tag">
+        $4.99 USD
+      </div>
+    </div>
+
+    <div class="card-container">
+      <div *ngIf="isLoading" class="ion-text-center ion-padding">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">Conectando con Stripe...</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message ion-padding ion-text-center" style="background: #fff0f0; color: var(--ion-color-danger); border-radius: 8px; margin-bottom: 16px;">
+        <ion-icon name="alert-circle-outline"></ion-icon> {{ errorMessage }}
+        <div class="ion-margin-top">
+          <ion-button size="small" fill="outline" color="danger" (click)="initializePayment()">
+            Reintentar
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Contenedor para Stripe Payment Element -->
+      <div id="payment-element" [class.hidden]="isLoading">
+        <!-- Stripe insertará el formulario aquí -->
+      </div>
+
+      <ion-button 
+        expand="block" 
+        class="pay-button" 
+        (click)="processPayment()"
+        [disabled]="isLoading || !stripe || !elements">
+        Pagar Ahora
+        <ion-icon slot="end" name="arrow-forward-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="footer-info">
+      <p>
+        <ion-icon name="shield-checkmark-outline"></ion-icon> 
+        Pagos procesados por <strong>Stripe</strong>
+      </p>
+      <p>No almacenamos los datos de tu tarjeta.</p>
+    </div>
+
   </div>
-
-  <ion-list>
-    <ion-item>
-      <ion-label position="floating">Número de Tarjeta (Simulado)</ion-label>
-      <ion-input type="tel" placeholder="0000 0000 0000 0000" [(ngModel)]="cardNumber"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Expiración (MM/YY)</ion-label>
-      <ion-input type="text" placeholder="MM/YY" [(ngModel)]="expiry"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">CVC</ion-label>
-      <ion-input type="tel" placeholder="123" [(ngModel)]="cvc"></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-button expand="block" class="ion-margin-top" (click)="processPayment()">
-    Pagar y Ver Resultados
-  </ion-button>
-
-  <p class="ion-text-center ion-text-small ion-padding-top" style="color: #666;">
-    * Esto es una simulación. No se realizará ningún cargo real.
-  </p>
 
 </ion-content>

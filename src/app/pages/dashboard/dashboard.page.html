@@ -47,7 +47,17 @@
       <div *ngFor="let attempt of history" class="history-card" (click)="viewResult(attempt)">
         <div class="card-content">
           <div class="card-info">
-            <h3 class="result-title">{{ attempt.resultTypeName || 'Resultado' }}</h3>
+            <h3 class="result-title">
+              {{ attempt.resultTypeName || 'Resultado' }}
+            </h3>
+            <div class="status-row">
+               <span class="status-badge paid" *ngIf="attempt.is_paid">
+                 <ion-icon name="checkmark-circle"></ion-icon> Pagado
+               </span>
+               <span class="status-badge pending" *ngIf="!attempt.is_paid">
+                 <ion-icon name="time"></ion-icon> Pendiente
+               </span>
+            </div>
             <p class="result-date">{{ attempt.date | date:'mediumDate' }}</p>
           </div>
           <div class="card-actions">

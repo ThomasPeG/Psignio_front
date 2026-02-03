@@ -65,7 +65,11 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     this.isLoading = true;
     this.quizService.getHistory().subscribe({
       next: (data) => {
-        console.log('Historial cargado:', data);
+        console.log('Historial cargado RAW:', data);
+        if (data && data.length > 0) {
+             console.log('Primer item del historial:', data[0]);
+             console.log('¿Tiene propiedad is_paid?:', 'is_paid' in data[0]);
+        }
         this.history = data || [];
         this.isLoading = false;
       },
@@ -135,63 +139,14 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     await alert.present();
   }
 
-  async shareResult(attempt: QuizHistoryItem, event: Event) {
-    event.stopPropagation();
-    
-    const shareData = {
-      title: 'Mi Arquetipo de Personalidad',
-      text: `¡Mi resultado es ${attempt.resultTypeName}! Descubre tu verdadera personalidad.`,
-      url: 'https://personality-quiz.app' // URL de ejemplo
-    };
-
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.log('Error compartiendo:', err);
-      }
-    } else {
-      // Fallback simple
-      console.log('Web Share no soportado');
-    }
+  viewResult(attempt: QuizHistoryItem) {
+    this.router.navigate(['/premium-result'], { queryParams: { id: attempt._id } });
   }
 
-  viewResult(attempt: QuizHistoryItem) {
-    if (!attempt._id) {
-      console.error('Intento sin ID');
-      return;
-    }
-
-    this.isLoading = true;
-    this.quizService.getResult(attempt._id).subscribe({
-      next: (data) => {
-        if (!data.is_paid && !data.preview) {
-          data.preview = {
-            typeName: attempt.resultTypeName,
-            snippet: attempt.snippet || 'Descubre tu verdadero potencial...',
-            imageUrl: attempt.imageUrl
-          };
-        }
-
-        this.quizService.lastResult = data;
-        this.isLoading = false;
-        this.router.navigate(['/premium-result']);
-      },
-      error: (err) => {
-        console.error('Error cargando detalle:', err);
-        this.isLoading = false;
-        
-        this.quizService.lastResult = {
-          is_paid: false,
-          preview: {
-            typeName: attempt.resultTypeName || 'Resultado',
-            snippet: attempt.snippet || 'Sin descripción',
-            imageUrl: attempt.imageUrl
-          }
-        };
-        this.router.navigate(['/premium-result']);
-      }
-    });
+  shareResult(attempt: QuizHistoryItem, event: Event) {
+    event.stopPropagation();
+    // TODO: Implementar share
+    console.log('Share', attempt);
   }
 
   async logout() {

@@ -2,7 +2,7 @@
   <ion-toolbar style="--background: transparent;">
     <ion-buttons slot="start">
       <!-- Custom Back Button logic -->
-      <ion-button (click)="handleBack()" color="light">
+      <ion-button *ngIf="currentQuestionIndex > 0" (click)="handleBack()" color="light">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>

@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { QuizService } from '../../services/quiz';
 import { QuizHistoryItem } from '../../models/quiz.models';
 import { ViewWillEnter, AlertController } from '@ionic/angular';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-dashboard',
@@ -143,10 +144,29 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     this.router.navigate(['/premium-result'], { queryParams: { id: attempt._id } });
   }
 
-  shareResult(attempt: QuizHistoryItem, event: Event) {
+  async shareResult(attempt: QuizHistoryItem, event: Event) {
     event.stopPropagation();
-    // TODO: Implementar share
-    console.log('Share', attempt);
+    
+    // URL Base: Idealmente debería ser tu dominio web real
+    // Si estás probando en local, puedes usar window.location.origin
+    // Pero para compartir a otros, necesitas una URL pública.
+    const baseUrl = 'https://psignio.netlify.app/'; // TODO: Reemplazar con dominio real
+    
+    // Construimos el link con el ID del intento como referencia para el matchmaking
+    const shareUrl = `${baseUrl}/match-landing?ref_attempt=${attempt._id}&ref_user=${this.user?._id || ''}`;
+
+    const message = `¡Descubrí que mi arquetipo es ${attempt.resultTypeName}! 🧩\n\n¿Seremos compatibles? Haz el test, descarga la app y averigüémoslo.`;
+
+    try {
+      await Share.share({
+        title: 'Test de Personalidad & Compatibilidad',
+        text: message,
+        url: shareUrl,
+        dialogTitle: 'Invitar a comparar',
+      });
+    } catch (error) {
+      console.error('Error al compartir:', error);
+    }
   }
 
   async logout() {

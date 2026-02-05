@@ -95,10 +95,35 @@ ion-alert {
     color: #333333 !important;
   }
   
-  .alert-button {
-    color: var(--ion-color-primary) !important;
-  }
+  /* 7. Áreas Seguras (Safe Area) para Notches y Navegación */
+/* Esto ajusta automáticamente el padding según el dispositivo (iPhone X+, Android modernos) */
+:root {
+  --ion-safe-area-top: env(safe-area-inset-top);
+  --ion-safe-area-bottom: env(safe-area-inset-bottom);
+}
 
+/* Clase utilitaria para contenedores que necesitan respetar los bordes */
+.safe-area-content {
+  padding-top: var(--ion-safe-area-top);
+  padding-bottom: var(--ion-safe-area-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Ajuste específico para FABs (Botones flotantes) */
+ion-fab {
+  margin-bottom: var(--ion-safe-area-bottom);
+}
+
+/* Ajuste para pies de página fijos */
+ion-footer {
+  padding-bottom: var(--ion-safe-area-bottom);
+}
+
+/* Ajuste para que el contenido no quede oculto detrás de la barra de navegación en Android */
+body.platform-android ion-content {
+  --padding-bottom: var(--ion-safe-area-bottom);
+}
   /* Para que el backdrop no oscurezca demasiado si se desea */
   --backdrop-opacity: 0.4; 
 }
@@ -109,4 +134,12 @@ ion-toast {
   --button-color: var(--ion-color-primary);
   --box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   font-weight: 500;
+}
+
+/* Espaciador de seguridad para el final del scroll */
+.safe-area-spacer {
+  height: calc(80px + env(safe-area-inset-bottom));
+  width: 100%;
+  display: block;
+  clear: both;
 }

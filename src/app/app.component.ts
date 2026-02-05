@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { StorageService } from './services/storage.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,21 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    // Inicializar Google Auth
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
+      // Configurar Status Bar Transparente (Edge-to-Edge)
+      try {
+        if (this.platform.is('capacitor')) {
+          await StatusBar.setStyle({ style: Style.Dark });
+          // Hace que el contenido suba detrás de la barra de estado
+          await StatusBar.setOverlaysWebView({ overlay: true });
+        }
+      } catch (err) {
+        console.warn('StatusBar plugin not implemented', err);
+      }
+
+      // Inicializar Google Auth
       GoogleAuth.initialize({
-        clientId: '371284904600-40l8dqsed8n6qgedgrgo8fqnl0enimvf.apps.googleusercontent.com',
+        clientId: '661874119102-pnb89egen6einv28aetiftfrmpcmdi2h.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
         grantOfflineAccess: true,
       });

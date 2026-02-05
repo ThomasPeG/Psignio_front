@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">personality-quiz</string>
-    <string name="title_activity_main">personality-quiz</string>
+    <string name="app_name">Psignio</string>
+    <string name="title_activity_main">Psignio</string>
     <string name="package_name">com.psingnio.quiz</string>
     <string name="custom_url_scheme">com.psingnio.quiz</string>
-    <string name="server_client_id">371284904600-40l8dqsed8n6qgedgrgo8fqnl0enimvf.apps.googleusercontent.com</string>
+    <string name="server_client_id">661874119102-pnb89egen6einv28aetiftfrmpcmdi2h.apps.googleusercontent.com</string>
 </resources>

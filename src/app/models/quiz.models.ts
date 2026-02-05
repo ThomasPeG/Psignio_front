@@ -29,6 +29,7 @@ export interface PersonalityType {
 export interface QuizResultResponse {
   _id?: string; // The attempt ID
   is_paid: boolean;
+  payment_id?: string; // ID de transacción de Stripe (si está pagado)
   // If Free (Preview only)
   preview?: {
     typeName: string;

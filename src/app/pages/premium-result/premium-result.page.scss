@@ -121,3 +121,11 @@ ul {
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+/* Espaciador seguro para dispositivos móviles antiguos/gestuales */
+.safe-area-spacer {
+  height: 50px; /* Base spacer */
+  height: calc(50px + var(--ion-safe-area-bottom, 0px)); /* Safe area adjusted */
+  width: 100%;
+  display: block;
+}

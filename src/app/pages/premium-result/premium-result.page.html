@@ -36,7 +36,7 @@
       <div class="archetype-icon-wrapper">
         <img [src]="previewImage" alt="Archetype Icon" class="archetype-icon">
       </div>
-      <h1 class="archetype-title">{{ result.result.dominant?.name }}</h1>
+      <h1 class="archetype-title">{{ result.result.dominant.name }}</h1>
       <p class="archetype-subtitle">Tu personalidad revelada</p>
     </div>
 
@@ -99,6 +99,9 @@
       Ir a mi Panel / Historial
       <ion-icon slot="end" name="grid-outline"></ion-icon>
     </ion-button>
+    
+    <!-- Espaciador final seguro -->
+    <div class="safe-area-spacer"></div>
   </div>
 
   <!-- Full Result UI -->
@@ -276,6 +279,9 @@
     <div class="ion-margin-top ion-text-center ion-margin-bottom">
       <ion-button fill="outline" class="secondary-btn" expand="block" (click)="goToDashboard()">Ir a mi Panel / Historial</ion-button>
     </div>
+    
+    <!-- Espaciador final seguro -->
+    <div class="safe-area-spacer"></div>
   </div>
 
   </div>

@@ -81,7 +81,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
         try {
             const client = google.accounts.oauth2.initTokenClient({
-                client_id: '371284904600-40l8dqsed8n6qgedgrgo8fqnl0enimvf.apps.googleusercontent.com',
+                client_id: '661874119102-pnb89egen6einv28aetiftfrmpcmdi2h.apps.googleusercontent.com',
                 scope: 'email profile openid',
                 callback: (tokenResponse: any) => {
                     if (tokenResponse && tokenResponse.access_token) {

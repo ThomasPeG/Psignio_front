@@ -20,6 +20,10 @@ export class PaymentService {
     return this.http.post<CreateIntentResponse>(`${this.apiUrl}/create-intent`, { attemptId });
   }
 
+  createPremiumUpgradeIntent(userId: string): Observable<CreateIntentResponse> {
+    return this.http.post<CreateIntentResponse>(`${this.apiUrl}/create-premium-intent`, { userId });
+  }
+
   syncPayment(paymentIntentId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/sync`, { paymentIntentId });
   }

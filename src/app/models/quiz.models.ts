@@ -1,58 +1,146 @@
 export interface QuizOption {
-  value: number;  // 1 to 7 (Map internally to A, B, C...)
+  value: number;
   label: string;
 }
 
 export interface Question {
-  id: number;       // 1 to 50
+  id: number;
   text: string;
-  domain: string;   // 'identity' | 'work' | 'social' | ...
+  domain: string;
   options: QuizOption[];
 }
 
-export interface PersonalityType {
+// Sub-interfaces for specific sections
+export interface WorkInfo {
+  roles: string[];
+  ambiente: string;
+  evita: string;
+}
+
+export interface SocialInfo {
+  descripcion: string;
+  limiteSano: string;
+}
+
+export interface MoneyInfo {
+  talento: string;
+  riesgo: string;
+  reglaDeOro: string;
+  ganaDinero: string;
+  bloqueo: string;
+  mejorAliado: string;
+  fraseDineroLuz: string;
+}
+
+export interface EnergyInfo {
+  descripcion: string;
+  color: string;
+  piedra: string;
+  fraseLuz: string;
+  fraseSombra: string;
+  habitoLuz: string;
+  habitoSombra: string;
+  talentoHumano: string;
+  retoEvolutivo: string;
+  necesitaAprender: string;
+}
+
+export interface VictimizationInfo {
+  frase: string;
+  comoSeVe: string[];
+  heridaRaiz: string;
+  fraseSombra: string;
+  salidaALuz: string;
+}
+
+// Archetype Interfaces
+export interface DominantArchetype {
+  _id: string;
   id: number;
-  name: string;
-  image_url: string;
+  codigo: string;
+  titulo: string;
+  name: string; // From example: "name": "string"
   description_preview: string;
   description_full: string;
-  mantra?: string;
-  lightBullets: string[];
-  shadowBullets: string[];
-  pareja: string[]; // Array of compatible strings
-  // Contextual details
-  trabajo: { roles: string; ambiente: string; evita: string };
-  social: { vibra: string; limite: string };
-  dinero: { talento: string; riesgo: string; regla: string };
+  esencia: string;
+  enLuz: string[];
+  enSombra: string[];
+  parejaPerfecta: string[];
+  trabajoIdeal: WorkInfo;
+  social: SocialInfo;
+  dinero: MoneyInfo;
+  mantra: string;
+  energia: EnergyInfo;
+  victimizacion: VictimizationInfo;
+  __v?: number;
+}
+
+export interface SecondaryArchetype {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  trabajo: WorkInfo;
+}
+
+export interface ShadowArchetype {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  enSombra: string[];
+}
+
+export interface WorkArchetype {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  trabajo: WorkInfo;
+}
+
+export interface SocialArchetype {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  social: SocialInfo;
+}
+
+export interface MoneyArchetype {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  dinero: MoneyInfo;
+}
+
+export interface QuizResultData {
+  dominant: DominantArchetype;
+  secondary: SecondaryArchetype;
+  shadow: ShadowArchetype;
+  work: WorkArchetype;
+  social: SocialArchetype;
+  money: MoneyArchetype;
 }
 
 export interface QuizResultResponse {
-  _id?: string; // The attempt ID
-  is_paid: boolean;
-  payment_id?: string; // ID de transacción de Stripe (si está pagado)
-  // If Free (Preview only)
+  is_paid?: boolean;
+  result?: QuizResultData;
+  _id?: string;
+  
+  // Compatibilidad: Campos planos que pueden venir del backend
+  typeName?: string;
+  snippet?: string;
+  
   preview?: {
     typeName: string;
     snippet: string;
-    imageUrl?: string; // Optional, backend might not send it
-  };
-  // If Paid (Premium) - Full result, no preview object
-  result?: {
-    dominant: PersonalityType;
-    secondary: PersonalityType;
-    shadow: PersonalityType;
-    work: PersonalityType;
-    social: PersonalityType;
-    money: PersonalityType;
+    imageUrl?: string;
   };
 }
 
 export interface QuizHistoryItem {
   _id: string;
-  date: string; // ISO Date string
+  date: string;
   resultTypeName: string;
-  imageUrl?: string;
-  snippet?: string;
-  is_paid?: boolean;     // Nuevo campo
-  payment_id?: string;   // Nuevo campo
+  imageUrl?: string; // Keep for compatibility if used in lists
+  snippet?: string;  // Keep for compatibility
+  is_paid?: boolean;
+  payment_id?: string;
 }

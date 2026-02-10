@@ -124,7 +124,13 @@ export class ResultPreviewPage implements OnInit {
   }
 
   goToPayment() {
-    this.router.navigate(['/payment']);
+    const resultId = this.result?._id || this.result?.result?.dominant?._id;
+    if (resultId) {
+      this.router.navigate(['/payment'], { queryParams: { attemptId: resultId } });
+    } else {
+      console.warn('No ID found for payment');
+      this.router.navigate(['/payment']);
+    }
   }
 
   goToDashboard() {

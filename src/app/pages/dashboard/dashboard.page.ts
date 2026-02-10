@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { QuizService } from '../../services/quiz';
+import { StorageService } from '../../services/storage.service';
 import { QuizHistoryItem } from '../../models/quiz.models';
 import { ViewWillEnter, AlertController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
@@ -21,6 +22,7 @@ export class DashboardPage implements OnInit, ViewWillEnter {
   constructor(
     private authService: AuthService, 
     private quizService: QuizService,
+    private storageService: StorageService,
     private router: Router,
     private alertCtrl: AlertController
   ) { }
@@ -31,8 +33,10 @@ export class DashboardPage implements OnInit, ViewWillEnter {
   }
 
   ionViewWillEnter() {
-    // Recargar historial cada vez que se entra a la vista
+    // Recargar historial y perfil cada vez que se entra a la vista
+    // Esto asegura que si venimos de un pago exitoso, el estado se actualice
     this.loadHistory();
+    this.loadProfile();
   }
 
   handleRefresh(event: any) {
@@ -52,6 +56,11 @@ export class DashboardPage implements OnInit, ViewWillEnter {
       next: (data) => {
         console.log('Perfil cargado:', data);
         this.user = data.user || data; // Ajuste por si el back devuelve directo el user o envuelto
+        
+        // Actualizar persistencia local para mantener sincronizado el estado (ej. isPremium)
+        if (this.user) {
+          this.storageService.set('user_info', this.user);
+        }
       },
       error: (err) => {
         console.error('Error al cargar perfil:', err);
@@ -96,7 +105,7 @@ export class DashboardPage implements OnInit, ViewWillEnter {
           {
             text: 'Ser Premium',
             handler: () => {
-              this.router.navigate(['/payment']);
+              this.router.navigate(['/payment'], { queryParams: { type: 'upgrade' } });
             }
           }
         ],
@@ -109,35 +118,24 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     this.router.navigate(['/question']); 
   }
 
-  async editProfile() {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar Perfil',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          placeholder: 'Tu nombre',
-          value: this.user?.name || ''
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            // Aquí iría la llamada al backend para actualizar
-            if (this.user) {
-              this.user.name = data.name;
-            }
-            // TODO: Implementar updateProfile en AuthService
-          }
-        }
-      ]
-    });
-    await alert.present();
+  isEditModalOpen = false;
+  editingName = '';
+
+  openEditModal() {
+    this.editingName = this.user?.name || '';
+    this.isEditModalOpen = true;
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+  }
+
+  saveProfile() {
+    if (this.user) {
+      this.user.name = this.editingName;
+      // TODO: Implementar updateProfile en AuthService
+    }
+    this.closeEditModal();
   }
 
   viewResult(attempt: QuizHistoryItem) {

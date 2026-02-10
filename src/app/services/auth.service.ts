@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, from } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
+import { QuizService } from './quiz';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
 import { environment } from '../../environments/environment';
@@ -35,7 +36,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
-    private platform: Platform
+    private platform: Platform,
+    private quizService: QuizService
   ) {
     this.loadSession();
     // La inicialización nativa se mantiene perezosa o bajo demanda
@@ -122,8 +124,8 @@ export class AuthService {
   }
 
   async logout() {
-    await this.storageService.remove('auth_token');
-    await this.storageService.remove('user_info');
+    await this.storageService.clear(); // Limpiar TODO el almacenamiento local (tokens, progreso quiz, user info)
+    this.quizService.clearSession();   // Limpiar estado en memoria del quiz
     this._authState.next(null);
     if (this.platform.is('capacitor')) {
         await GoogleAuth.signOut();

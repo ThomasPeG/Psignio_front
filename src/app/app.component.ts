@@ -33,12 +33,14 @@ export class AppComponent {
         console.warn('StatusBar plugin not implemented', err);
       }
 
-      // Inicializar Google Auth
-      GoogleAuth.initialize({
-        clientId: '661874119102-pnb89egen6einv28aetiftfrmpcmdi2h.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
-        grantOfflineAccess: true,
-      });
+      // Inicializar Google Auth solo en nativo (en web usamos SDK manual en AuthService)
+      if (this.platform.is('capacitor')) {
+        GoogleAuth.initialize({
+          clientId: '661874119102-pnb89egen6einv28aetiftfrmpcmdi2h.apps.googleusercontent.com',
+          scopes: ['profile', 'email'],
+          grantOfflineAccess: true,
+        });
+      }
     });
 
     // Inicializar almacenamiento

@@ -33,4 +33,8 @@ export class QuizService {
   getHistory(): Observable<QuizHistoryItem[]> {
     return this.http.get<QuizHistoryItem[]>(`${this.apiUrl}/quiz/history`);
   }
+
+  clearSession() {
+    this.lastResult = undefined;
+  }
 }

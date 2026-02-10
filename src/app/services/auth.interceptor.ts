@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private storageService: StorageService,
-    private authService: AuthService,
+    private injector: Injector,
     private router: Router
   ) {}
 
@@ -37,8 +37,9 @@ export class AuthInterceptor implements HttpInterceptor {
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
               console.warn('Sesión expirada o token inválido (401). Cerrando sesión...');
-              // No esperamos el logout async para no bloquear el flujo de error
-              this.authService.logout().then(() => {
+              // Usar Injector para evitar dependencia circular
+              const authService = this.injector.get(AuthService);
+              authService.logout().then(() => {
                  this.router.navigate(['/auth']);
               });
             }

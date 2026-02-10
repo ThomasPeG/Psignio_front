@@ -100,7 +100,19 @@ export class PremiumResultPage implements OnInit {
     this.isLoadingPayment = true;
     try {
       const data = await this.quizService.getResult(id).toPromise();
+      console.log('LoadResult Data:', data);
+      
       if (data) {
+        // Normalización robusta para vista previa
+        if (!data.is_paid && !data.result) {
+          // Si no está pagado y no tiene objeto result completo, construimos preview
+          data.preview = {
+            typeName: data.typeName || data.preview?.typeName || 'Arquetipo',
+            snippet: data.snippet || data.preview?.snippet || 'Descubre tu personalidad completa.',
+            imageUrl: 'assets/icon/favicon.png' // Fallback seguro
+          };
+        }
+
         this.result = data;
         this.quizService.lastResult = data;
         
@@ -221,8 +233,13 @@ export class PremiumResultPage implements OnInit {
   }
 
   goToPayment() {
-    // Prioridad: 1. ID de params, 2. ID del objeto resultado, 3. ID almacenado
-    const targetId = this.currentResultId || (this.result && this.result._id);
+    // Prioridad: 1. ID de params, 2. ID del objeto resultado (legacy o nuevo), 3. ID almacenado
+    let resultId = this.result?._id;
+    if (!resultId && this.result?.result?.dominant?._id) {
+      resultId = this.result.result.dominant._id;
+    }
+
+    const targetId = this.currentResultId || resultId;
 
     if (targetId) {
         this.router.navigate(['/payment'], { 

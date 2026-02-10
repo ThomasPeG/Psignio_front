@@ -95,8 +95,11 @@ ion-alert {
     color: #333333 !important;
   }
   
-  /* 7. Áreas Seguras (Safe Area) para Notches y Navegación */
-/* Esto ajusta automáticamente el padding según el dispositivo (iPhone X+, Android modernos) */
+  /* Para que el backdrop no oscurezca demasiado si se desea */
+  --backdrop-opacity: 0.4; 
+}
+
+/* 7. Áreas Seguras (Safe Area) para Notches y Navegación */
 :root {
   --ion-safe-area-top: env(safe-area-inset-top);
   --ion-safe-area-bottom: env(safe-area-inset-bottom);
@@ -124,9 +127,6 @@ ion-footer {
 body.platform-android ion-content {
   --padding-bottom: var(--ion-safe-area-bottom);
 }
-  /* Para que el backdrop no oscurezca demasiado si se desea */
-  --backdrop-opacity: 0.4; 
-}
 
 ion-toast {
   --background: #ffffff;
@@ -143,3 +143,4 @@ ion-toast {
   display: block;
   clear: both;
 }
+

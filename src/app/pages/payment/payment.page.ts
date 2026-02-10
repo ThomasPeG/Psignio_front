@@ -5,6 +5,7 @@ import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
 import { PaymentService } from '../../services/payment.service';
 import { QuizService } from '../../services/quiz';
 import { StorageService } from '../../services/storage.service';
+import { AuthService } from '../../services/auth.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -19,6 +20,12 @@ export class PaymentPage implements OnInit {
   elements: StripeElements | null = null;
   isLoading = true;
   errorMessage: string = '';
+  
+  // Payment Mode: 'result' | 'upgrade'
+  paymentMode: 'result' | 'upgrade' = 'result';
+  priceDisplay: string = '$2.99 USD';
+  productTitle: string = 'Desbloquea tu Potencial';
+  productSubtitle: string = 'Obtén tu análisis de personalidad completo';
 
   constructor(
     private router: Router,
@@ -27,7 +34,8 @@ export class PaymentPage implements OnInit {
     private toastCtrl: ToastController,
     private paymentService: PaymentService,
     private quizService: QuizService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private authService: AuthService
   ) {}
 
   async ngOnInit() {
@@ -35,31 +43,59 @@ export class PaymentPage implements OnInit {
   }
 
   async initializePayment() {
-    // Intentar obtener ID de los parámetros de la URL
+    // Intentar obtener parámetros de la URL
     const params = await firstValueFrom(this.route.queryParams);
     let attemptId = params['attemptId'];
+    const type = params['type']; // 'upgrade' o undefined (default result)
 
-    // Si no hay parámetro, intentar desde el servicio (estado volátil)
-    if (!attemptId) {
-       const result = this.quizService.lastResult;
-       if (result && result._id) {
-           attemptId = result._id;
-       }
+    // Configurar modo
+    if (type === 'upgrade') {
+        this.paymentMode = 'upgrade';
+        this.priceDisplay = '$1.99 USD';
+        this.productTitle = 'Cuenta Premium';
+        this.productSubtitle = 'Tests ilimitados y acceso exclusivo';
+    } else {
+        this.paymentMode = 'result';
+        this.priceDisplay = '$2.99 USD';
+        this.productTitle = 'Desbloquea tu Potencial';
+        this.productSubtitle = 'Obtén tu análisis de personalidad completo';
+        
+        // Lógica legacy para encontrar ID si no viene en params
+        if (!attemptId) {
+            const result = this.quizService.lastResult;
+            if (result && result._id) {
+                attemptId = result._id;
+            }
+        }
+        
+        if (!attemptId) {
+            this.presentToast('No se encontró el intento de quiz. Vuelve a intentarlo.', 'danger');
+            this.router.navigate(['/dashboard']);
+            return;
+        }
+        
+        // Guardar el ID del intento
+        await this.storageService.set('pending_payment_attempt_id', attemptId);
     }
-
-    if (!attemptId) {
-      this.presentToast('No se encontró el intento de quiz. Vuelve a intentarlo.', 'danger');
-      this.router.navigate(['/dashboard']);
-      return;
-    }
-
-    // Guardar el ID del intento por si hay redirección y recarga
-    await this.storageService.set('pending_payment_attempt_id', attemptId);
 
     try {
       this.isLoading = true;
       this.errorMessage = ''; // Limpiar errores previos
-      const response = await firstValueFrom(this.paymentService.createIntent(attemptId));
+      
+      let response;
+      
+      if (this.paymentMode === 'upgrade') {
+          // Obtener usuario actual para el upgrade
+          const user = await this.storageService.get('user_info');
+          if (!user || !user._id) {
+              throw new Error('Debes iniciar sesión para ser Premium');
+          }
+          response = await firstValueFrom(this.paymentService.createPremiumUpgradeIntent(user._id));
+      } else {
+          // Pago de resultado normal
+          response = await firstValueFrom(this.paymentService.createIntent(attemptId));
+      }
+
       const { clientSecret, publicKey } = response || {};
       
       if (!clientSecret || !publicKey) {
@@ -79,9 +115,9 @@ export class PaymentPage implements OnInit {
       
       this.isLoading = false;
 
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      this.errorMessage = 'Error al cargar el sistema de pago. Verifica tu conexión.';
+      this.errorMessage = error.message || 'Error al cargar el sistema de pago. Verifica tu conexión.';
       this.isLoading = false;
     }
   }
@@ -95,49 +131,52 @@ export class PaymentPage implements OnInit {
     await loading.present();
 
     try {
+      // Definir URL de retorno según el modo
+      const returnUrl = this.paymentMode === 'upgrade' 
+        ? window.location.origin + '/dashboard?payment_status=confirmed&type=upgrade'
+        : window.location.origin + '/premium-result';
+
       const result = await this.stripe.confirmPayment({
         elements: this.elements,
         confirmParams: {
-          return_url: window.location.origin + '/premium-result',
+          return_url: returnUrl,
         },
         redirect: 'if_required'
       });
 
       if (result.error) {
-        // Error en el pago (tarjeta rechazada, etc)
+        // Error en el pago
         await loading.dismiss();
         this.errorMessage = result.error.message || 'Ocurrió un error desconocido';
         this.presentToast(this.errorMessage, 'danger');
       } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-        // Éxito inmediato (sin redirección)
-        // Actualizamos el mensaje del loading para dar feedback
-        // loading.dismiss() se llamará al final
+        // Éxito inmediato
         
         try {
-          // 1. FAIL-SAFE SYNC: Forzar notificación al backend
-          console.log('Pago exitoso en cliente, sincronizando con backend...');
+          console.log('Pago exitoso, sincronizando...');
           await firstValueFrom(this.paymentService.syncPayment(result.paymentIntent.id));
-          console.log('Sincronización completada.');
         } catch (syncError) {
-          console.warn('Sync manual falló, confiando en webhook:', syncError);
-          // No bloqueamos el flujo, el usuario pagó y debe ver algo (aunque sea "procesando")
+          console.warn('Sync manual falló:', syncError);
         }
 
         await loading.dismiss();
         
-        // 2. Navegar a resultados pasando el ID para asegurar la carga correcta
-        const attemptId = await this.storageService.get('pending_payment_attempt_id');
-        this.router.navigate(['/premium-result'], { 
-          queryParams: { 
-            id: attemptId,
-            payment_status: 'confirmed' // Flag extra para la UI
-          } 
-        });
+        if (this.paymentMode === 'upgrade') {
+            // Actualizar estado local del usuario a Premium si es posible
+            // O forzar recarga del perfil en Dashboard
+            this.presentToast('¡Bienvenido a Premium!', 'success');
+            this.router.navigate(['/dashboard'], { queryParams: { refresh: 'true' } });
+        } else {
+            const attemptId = await this.storageService.get('pending_payment_attempt_id');
+            this.router.navigate(['/premium-result'], { 
+              queryParams: { 
+                id: attemptId,
+                payment_status: 'confirmed' 
+              } 
+            });
+        }
 
       } else {
-        // Casos raros (requires_action que no se manejó auto, processing, etc)
-        // Normalmente con 'if_required', si requiere acción (3DS), Stripe maneja la redirección o el popup
-        // Si llegamos aquí sin error y sin paymentIntent exitoso, asumimos redirección en curso o estado pendiente
         await loading.dismiss();
       }
 

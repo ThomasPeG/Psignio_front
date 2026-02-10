@@ -98,34 +98,165 @@ ul {
 }
 
 .secondary-btn {
-  --color: #ffffff;
-  --border-color: #ffffff;
-  --border-width: 2px;
+  --color: white;
+  --border-color: white;
   --border-radius: 50px;
-  --background: transparent;
   font-weight: 600;
-  height: 50px;
+  height: 52px;
 }
 
-/* Ensure blur container looks right in fallback */
+/* NEW STYLES FOR FULL RESULT */
+
+.section-header {
+  text-align: center;
+  padding: 20px 0 10px;
+  h1, h2 {
+    color: white;
+    font-weight: 800;
+    margin-bottom: 5px;
+  }
+  .subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.1rem;
+    margin-top: 0;
+  }
+}
+
+/* === ESTILOS PARA LA VISTA PREVIA (LOCKED) === */
+.blur-preview-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.blur-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.8;
+  object-fit: cover;
+}
+
+.lock-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.3);
+  border-radius: 50%;
+  padding: 10px;
+}
+
 .blur-container {
   position: relative;
-  overflow: hidden;
 }
 
 .lock-overlay {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: rgba(255,255,255,0.95);
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
-/* Espaciador seguro para dispositivos móviles antiguos/gestuales */
-.safe-area-spacer {
-  height: 50px; /* Base spacer */
-  height: calc(50px + var(--ion-safe-area-bottom, 0px)); /* Safe area adjusted */
-  width: 100%;
-  display: block;
+.section-divider {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  h3 {
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-left: 4px solid var(--ion-color-tertiary);
+    padding-left: 10px;
+  }
+}
+
+.esencia-title {
+  color: var(--ion-color-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.esencia-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #555;
+  margin-top: 0;
+}
+
+.mantra-box {
+  background: #f4f5f8;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  
+  ion-icon {
+    font-size: 24px;
+    color: var(--ion-color-tertiary);
+    margin-bottom: 10px;
+  }
+  
+  blockquote {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+}
+
+.list-card.light ion-card-title { color: #FFD700; } /* Gold */
+.list-card.shadow ion-card-title { color: #666; }
+
+.energy-item {
+  text-align: center;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 12px;
+  
+  .label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ion-color-dark);
+  }
+}
+
+.energy-details p, .victim-card p, .subsection p {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  
+  strong {
+    color: var(--ion-color-primary);
+  }
+}
+
+.quote-box {
+  border-left: 4px solid var(--ion-color-danger);
+  padding-left: 15px;
+  margin-bottom: 20px;
+  p { font-size: 1.1rem; color: #555; }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
 }

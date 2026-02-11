@@ -123,8 +123,24 @@ export class AuthService {
      );
   }
 
-  async logout() {
-    await this.storageService.clear(); // Limpiar TODO el almacenamiento local (tokens, progreso quiz, user info)
+  async logout(preserveQuiz: boolean = false) {
+    let savedAnswers = null;
+    let savedIndex = null;
+
+    if (preserveQuiz) {
+      savedAnswers = await this.storageService.get('currentAnswers');
+      savedIndex = await this.storageService.get('currentQuestionIndex');
+    }
+
+    await this.storageService.clear(); // Limpiar TODO el almacenamiento local
+
+    if (preserveQuiz && savedAnswers) {
+      await this.storageService.set('currentAnswers', savedAnswers);
+      if (savedIndex !== null) {
+        await this.storageService.set('currentQuestionIndex', savedIndex);
+      }
+    }
+
     this.quizService.clearSession();   // Limpiar estado en memoria del quiz
     this._authState.next(null);
     if (this.platform.is('capacitor')) {
@@ -143,7 +159,22 @@ export class AuthService {
   
   getProfile(): Observable<any> {
     // Si el backend devuelve solo el usuario, lo mapeamos
-    return this.http.get<any>(`${this.baseUrl}/user/profile`);
+    return this.http.get<any>(`${this.baseUrl}/user/profile`).pipe(
+      tap(response => {
+        // Asumimos que la respuesta puede ser el usuario directo o { user: ... }
+        const user = response.user || response;
+        if (user) {
+          this.updateLocalSession(user);
+        }
+      })
+    );
+  }
+
+  private async updateLocalSession(user: User) {
+    const current = await this.storageService.get('user_info');
+    const updated = { ...current, ...user };
+    await this.storageService.set('user_info', updated);
+    this._authState.next(updated);
   }
 
   private async saveSession(response: AuthResponse) {

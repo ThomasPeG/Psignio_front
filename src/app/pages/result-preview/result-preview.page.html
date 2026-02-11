@@ -31,10 +31,11 @@
       Hemos calculado tu arquetipo. Inicia sesión o regístrate para guardarlo y descubrir quién eres.
     </p>
 
+    <!-- Usamos el componente de auth form que ya maneja login/registro -->
     <app-auth-form (authSuccess)="onAuthSuccess($event)"></app-auth-form>
   </div>
 
-  <!-- STATE: RESULT AVAILABLE -->
+  <!-- STATE: RESULT AVAILABLE (PREVIEW ONLY) -->
   <div *ngIf="result && result.preview">
     <ion-card>
       <ion-card-header>
@@ -57,22 +58,18 @@
           <div class="lock-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; background: rgba(255,255,255,0.8); padding: 20px; border-radius: 12px; width: 80%;">
             <ion-icon name="lock-closed" size="large" color="medium"></ion-icon>
             <p style="font-weight: bold; color: #333;">Análisis Completo Bloqueado</p>
+            <p style="font-size: 0.9em; color: #666;">Inicia sesión para desbloquear tu resultado.</p>
           </div>
         </div>
 
       </ion-card-content>
     </ion-card>
 
-    <ion-button expand="block" class="ion-margin-top action-btn" (click)="goToPayment()">
-      Desbloquear Informe Completo
-      <ion-icon slot="end" name="card"></ion-icon>
-    </ion-button>
-    <p class="ion-text-small ion-margin-top" style="color: rgba(255,255,255,0.8);">Obtén tu perfil detallado, consejos de carrera y relaciones por solo $4.99</p>
+    <div class="ion-margin-top">
+        <p style="color: white;">Para ver tu resultado completo y guardarlo en tu perfil:</p>
+        <app-auth-form (authSuccess)="onAuthSuccess($event)"></app-auth-form>
+    </div>
 
-    <ion-button expand="block" fill="outline" class="secondary-btn ion-margin-top" (click)="goToDashboard()">
-      Ir a mi Panel / Historial
-      <ion-icon slot="end" name="grid-outline"></ion-icon>
-    </ion-button>
   </div>
 
   <div *ngIf="result && !result.preview">

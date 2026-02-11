@@ -29,8 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'premium-result',
-    loadChildren: () => import('./pages/premium-result/premium-result.module').then( m => m.PremiumResultPageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/premium-result/premium-result.module').then( m => m.PremiumResultPageModule)
   },
   {
     path: 'auth',

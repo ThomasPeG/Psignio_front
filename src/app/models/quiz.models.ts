@@ -25,11 +25,7 @@ export interface SocialInfo {
 export interface MoneyInfo {
   talento: string;
   riesgo: string;
-  reglaDeOro: string;
-  ganaDinero: string;
-  bloqueo: string;
-  mejorAliado: string;
-  fraseDineroLuz: string;
+  regla: string;
 }
 
 export interface EnergyInfo {

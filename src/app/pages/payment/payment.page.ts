@@ -162,8 +162,14 @@ export class PaymentPage implements OnInit {
         await loading.dismiss();
         
         if (this.paymentMode === 'upgrade') {
-            // Actualizar estado local del usuario a Premium si es posible
-            // O forzar recarga del perfil en Dashboard
+            // Forzar actualización del perfil antes de volver
+            try {
+              const updatedProfile = await firstValueFrom(this.authService.getProfile());
+              console.log('Perfil actualizado tras pago:', updatedProfile);
+            } catch (e) {
+              console.warn('No se pudo refrescar el perfil automáticamente:', e);
+            }
+
             this.presentToast('¡Bienvenido a Premium!', 'success');
             this.router.navigate(['/dashboard'], { queryParams: { refresh: 'true' } });
         } else {

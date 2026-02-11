@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { QuizService } from '../../services/quiz';
 import { StorageService } from '../../services/storage.service';
+import { AuthService } from '../../services/auth.service';
 import { Question, QuizOption } from '../../models/quiz.models';
 
 @Component({
@@ -32,7 +33,10 @@ export class QuestionPage implements OnInit {
     private quizService: QuizService, 
     private router: Router,
     private storage: StorageService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -112,8 +116,98 @@ export class QuestionPage implements OnInit {
 
   async finishQuiz() {
     this.progress = 1;
-    // Ya no enviamos aquí. Redirigimos al preview para guardar en DB.
-    this.router.navigate(['/result-preview']);
+    
+    // Verificar sesión multiplataforma antes de decidir flujo
+    const isLoggedIn = await this.authService.isLoggedIn();
+
+    if (isLoggedIn) {
+      // Usuario autenticado -> Flujo Premium (Guardar y Pagar)
+      await this.submitQuiz();
+    } else {
+      // Usuario anónimo -> Flujo Preview (Ver resultado parcial y Auth)
+      // Guardamos respuestas en storage para recuperarlas tras login
+      await this.storage.set('currentAnswers', this.answers);
+      this.router.navigate(['/result-preview']);
+    }
+  }
+
+  async submitQuiz() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Analizando tus respuestas...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    this.quizService.submitQuiz(this.answers).subscribe({
+      next: async (response) => {
+        console.log('Resultados guardados:', response);
+        this.quizService.lastResult = response;
+        
+        // Limpiar progreso local solo tras éxito
+        await this.storage.remove('currentAnswers');
+        await this.storage.remove('currentQuestionIndex');
+        
+        await loading.dismiss();
+        
+        // Navegar a Premium Result (que actúa como preview y full result)
+        this.router.navigate(['/premium-result'], {
+          queryParams: { id: response._id }
+        });
+      },
+      error: async (err) => {
+        await loading.dismiss();
+        console.error('Error al guardar:', err);
+
+        if (err.status === 403) {
+          // Límite alcanzado
+          const alert = await this.alertCtrl.create({
+            header: 'Límite de Cuenta Alcanzado',
+            message: 'Tu cuenta actual ha alcanzado el límite de tests gratuitos. Inicia sesión con otra cuenta para guardar este resultado sin perder tu progreso.',
+            buttons: [
+              {
+                text: 'Cancelar',
+                role: 'cancel'
+              },
+              {
+                text: 'Cambiar Cuenta',
+                handler: async () => {
+                  // Logout preservando el quiz
+                  await this.authService.logout(true);
+                  // Redirigir a login
+                  this.router.navigate(['/auth']);
+                }
+              }
+            ],
+            backdropDismiss: false
+          });
+          await alert.present();
+        } else if (err.status === 401) {
+          // No autenticado (si el backend requiere auth)
+          // Si el backend permite anónimos, esto no debería pasar. 
+          // Si pasa, redirigimos a auth.
+          const alert = await this.alertCtrl.create({
+            header: 'Guardar Resultado',
+            message: 'Para guardar tu análisis, necesitas iniciar sesión o registrarte.',
+            buttons: [
+              {
+                text: 'Iniciar Sesión / Registrarse',
+                handler: () => {
+                   this.router.navigate(['/auth']);
+                }
+              }
+            ]
+          });
+          await alert.present();
+        } else {
+          const alert = await this.alertCtrl.create({
+            header: 'Error',
+            message: 'Hubo un problema al guardar tus respuestas. Intenta nuevamente.',
+            buttons: ['OK']
+          });
+          await alert.present();
+        }
+      }
+    });
   }
 
 }

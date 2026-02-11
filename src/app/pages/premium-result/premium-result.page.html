@@ -82,6 +82,70 @@
       </ion-card-content>
     </ion-card>
 
+    <!-- COMPATIBILIDADES (DYNAMIC) -->
+    <div class="ion-padding-horizontal ion-margin-top">
+      <ion-button expand="block" color="tertiary" 
+                  (click)="loadCompatibilities()" 
+                  *ngIf="!compatibilitiesLoaded && !isLoadingCompatibilities">
+        <ion-icon name="heart-outline" slot="start"></ion-icon>
+        Ver Análisis de Compatibilidad
+      </ion-button>
+    
+      <div *ngIf="isLoadingCompatibilities" class="ion-text-center ion-padding">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Cargando compatibilidades...</p>
+      </div>
+    </div>
+    
+    <div *ngIf="compatibilitiesLoaded" class="compatibilities-container">
+        <div class="section-divider">
+          <h3>Compatibilidades Detalladas</h3>
+        </div>
+        
+        <ion-card *ngFor="let item of compatibilities" class="compatibility-card">
+          <ion-card-header>
+            <ion-card-title class="ion-text-wrap" style="font-size: 1.1rem;">
+                 <span *ngFor="let a of item.arquetipos; let i = index">
+                    {{ getArchetypeName(a) }}<span *ngIf="i < item.arquetipos.length - 1"> + </span>
+                 </span>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+              <div *ngIf="item.atraccion && item.atraccion.length > 0" class="ion-margin-bottom">
+                 <p class="label">Atracción</p>
+                 <ul class="ion-no-margin ion-padding-start">
+                   <li *ngFor="let t of item.atraccion">{{t}}</li>
+                 </ul>
+              </div>
+              
+              <div *ngIf="item.luz && item.luz.length > 0" class="ion-margin-bottom">
+                 <p class="label">En Luz</p>
+                 <ul class="ion-no-margin ion-padding-start">
+                   <li *ngFor="let t of item.luz">{{t}}</li>
+                 </ul>
+              </div>
+              
+              <div *ngIf="item.sombra && item.sombra.length > 0" class="ion-margin-bottom">
+                 <p class="label">En Sombra</p>
+                 <ul class="ion-no-margin ion-padding-start">
+                   <li *ngFor="let t of item.sombra">{{t}}</li>
+                 </ul>
+              </div>
+              
+              <div *ngIf="item.conflicto && item.conflicto.length > 0" class="ion-margin-bottom">
+                 <p class="label">Conflicto</p>
+                 <ul class="ion-no-margin ion-padding-start">
+                   <li *ngFor="let t of item.conflicto">{{t}}</li>
+                 </ul>
+              </div>
+              
+              <div *ngIf="item.clave" class="quote-box">
+                 <p><strong>Clave:</strong> {{ item.clave }}</p>
+              </div>
+          </ion-card-content>
+        </ion-card>
+    </div>
+
     <!-- ENERGIA -->
     <div class="section-divider">
       <h3>Energía y Evolución</h3>
@@ -178,7 +242,7 @@
     </div>
     <ion-card class="money-card">
       <ion-card-content>
-        <ion-list lines="none">
+        <ion-list lines="none" class="list-item-dinero">
           <ion-item>
             <ion-label class="ion-text-wrap"><strong>Talento:</strong> {{ result.result.dominant.dinero.talento }}</ion-label>
           </ion-item>
@@ -186,19 +250,7 @@
             <ion-label class="ion-text-wrap"><strong>Riesgo:</strong> {{ result.result.dominant.dinero.riesgo }}</ion-label>
           </ion-item>
           <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Regla de Oro:</strong> {{ result.result.dominant.dinero.reglaDeOro }}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Cómo Gana:</strong> {{ result.result.dominant.dinero.ganaDinero }}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Bloqueo:</strong> {{ result.result.dominant.dinero.bloqueo }}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Mejor Aliado:</strong> {{ result.result.dominant.dinero.mejorAliado }}</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Frase Luz:</strong> {{ result.result.dominant.dinero.fraseDineroLuz }}</ion-label>
+            <ion-label class="ion-text-wrap"><strong>Regla de Oro:</strong> {{ result.result.dominant.dinero.regla }}</ion-label>
           </ion-item>
         </ion-list>
       </ion-card-content>
@@ -297,11 +349,7 @@
         <div class="subsection ion-margin-top">
           <p><strong>Talento:</strong> {{ result.result.money.dinero.talento }}</p>
           <p><strong>Riesgo:</strong> {{ result.result.money.dinero.riesgo }}</p>
-          <p><strong>Regla de Oro:</strong> {{ result.result.money.dinero.reglaDeOro }}</p>
-          <p><strong>Cómo Gana:</strong> {{ result.result.money.dinero.ganaDinero }}</p>
-          <p><strong>Bloqueo:</strong> {{ result.result.money.dinero.bloqueo }}</p>
-          <p><strong>Mejor Aliado:</strong> {{ result.result.money.dinero.mejorAliado }}</p>
-          <p><strong>Frase Luz:</strong> {{ result.result.money.dinero.fraseDineroLuz }}</p>
+          <p><strong>Regla de Oro:</strong> {{ result.result.money.dinero.regla }}</p>
         </div>
       </ion-card-content>
     </ion-card>

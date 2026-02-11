@@ -19,6 +19,11 @@ export class PremiumResultPage implements OnInit {
   showPaymentWaitMessage = false;
   currentResultId: string | undefined;
 
+  // Compatibilities
+  compatibilities: any[] = [];
+  isLoadingCompatibilities = false;
+  compatibilitiesLoaded = false;
+
   constructor(
     private quizService: QuizService, 
     private router: Router,
@@ -226,6 +231,58 @@ export class PremiumResultPage implements OnInit {
       'El Sabio': 'assets/types/sabio.png',
     };
     return map[typeName] || 'assets/icon/favicon.png';
+  }
+
+  getArchetypeCode(name: string): string {
+    const map: {[key: string]: string} = {
+        'El Impulso': 'T1',
+        'El Vínculo': 'T2',
+        'El Estratega': 'T3',
+        'El Soberano': 'T4',
+        'El Visionario': 'T5',
+        'El Arquitecto': 'T6',
+        'El Alquimista': 'T7'
+    };
+    if (!name) return 'T1';
+    const key = Object.keys(map).find(k => name.toLowerCase().includes(k.toLowerCase()));
+    return key ? map[key] : 'T1';
+  }
+
+  getArchetypeName(code: string): string {
+    const map: {[key: string]: string} = {
+        'T1': 'El Impulso',
+        'T2': 'El Vínculo',
+        'T3': 'El Estratega',
+        'T4': 'El Soberano',
+        'T5': 'El Visionario',
+        'T6': 'El Arquitecto',
+        'T7': 'El Alquimista'
+    };
+    return map[code] || code;
+  }
+
+  loadCompatibilities() {
+    if (!this.result?.result?.dominant) return;
+    
+    let code = this.result.result.dominant.codigo;
+    if (!code || !code.startsWith('T')) {
+        code = this.getArchetypeCode(this.result.result.dominant.titulo);
+    }
+    
+    this.isLoadingCompatibilities = true;
+    this.quizService.getCompatibilities(code).subscribe({
+        next: (data) => {
+            console.log('Compatibilities loaded:', data);
+            this.compatibilities = data;
+            this.compatibilitiesLoaded = true;
+            this.isLoadingCompatibilities = false;
+        },
+        error: (err) => {
+            console.error('Error loading compatibilities', err);
+            this.presentAlert('Error', 'No se pudieron cargar las compatibilidades.');
+            this.isLoadingCompatibilities = false;
+        }
+    });
   }
 
   restart() {

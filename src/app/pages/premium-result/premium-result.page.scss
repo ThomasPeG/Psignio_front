@@ -10,12 +10,12 @@ ion-card {
   ion-card-header, ion-card-content {
     --color: var(--app-text-dark, #333333);
     color: var(--app-text-dark, #333333);
+    background-color: transparent;
   }
 
   ion-card-title {
     --color: var(--ion-color-primary);
     color: var(--ion-color-primary);
-    font-weight: 800;
   }
 
   ion-card-subtitle {
@@ -259,4 +259,7 @@ ul {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 5px;
+}
+.list-item-dinero{
+  background: transparent;
 }

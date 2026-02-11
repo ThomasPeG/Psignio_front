@@ -34,6 +34,10 @@ export class QuizService {
     return this.http.get<QuizHistoryItem[]>(`${this.apiUrl}/quiz/history`);
   }
 
+  getCompatibilities(code: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/compatibilities/${code}`);
+  }
+
   clearSession() {
     this.lastResult = undefined;
   }

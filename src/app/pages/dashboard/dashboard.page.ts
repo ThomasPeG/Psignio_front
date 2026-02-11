@@ -34,7 +34,6 @@ export class DashboardPage implements OnInit, ViewWillEnter {
 
   ionViewWillEnter() {
     // Recargar historial y perfil cada vez que se entra a la vista
-    // Esto asegura que si venimos de un pago exitoso, el estado se actualice
     this.loadHistory();
     this.loadProfile();
   }
@@ -56,11 +55,6 @@ export class DashboardPage implements OnInit, ViewWillEnter {
       next: (data) => {
         console.log('Perfil cargado:', data);
         this.user = data.user || data; // Ajuste por si el back devuelve directo el user o envuelto
-        
-        // Actualizar persistencia local para mantener sincronizado el estado (ej. isPremium)
-        if (this.user) {
-          this.storageService.set('user_info', this.user);
-        }
       },
       error: (err) => {
         console.error('Error al cargar perfil:', err);
@@ -114,6 +108,10 @@ export class DashboardPage implements OnInit, ViewWillEnter {
       await alert.present();
       return;
     }
+
+    // Limpiar cualquier progreso anterior para iniciar un quiz fresco
+    await this.storageService.remove('currentAnswers');
+    await this.storageService.remove('currentQuestionIndex');
 
     this.router.navigate(['/question']); 
   }

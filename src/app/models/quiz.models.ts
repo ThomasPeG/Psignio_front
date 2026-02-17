@@ -119,11 +119,11 @@ export interface QuizResultResponse {
   is_paid?: boolean;
   result?: QuizResultData;
   _id?: string;
-  
+
   // Compatibilidad: Campos planos que pueden venir del backend
   typeName?: string;
   snippet?: string;
-  
+
   preview?: {
     typeName: string;
     snippet: string;
@@ -136,7 +136,7 @@ export interface QuizHistoryItem {
   date: string;
   resultTypeName: string;
   imageUrl?: string; // Keep for compatibility if used in lists
-  snippet?: string;  // Keep for compatibility
+  snippet?: string; // Keep for compatibility
   is_paid?: boolean;
   payment_id?: string;
 }

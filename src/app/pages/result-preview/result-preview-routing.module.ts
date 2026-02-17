@@ -6,8 +6,8 @@ import { ResultPreviewPage } from './result-preview.page';
 const routes: Routes = [
   {
     path: '',
-    component: ResultPreviewPage
-  }
+    component: ResultPreviewPage,
+  },
 ];
 
 @NgModule({

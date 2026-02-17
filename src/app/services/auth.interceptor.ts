@@ -1,11 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse
-} from '@angular/common/http';
+import { Injectable, Injector, inject } from '@angular/core';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, from, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { StorageService } from './storage.service';
@@ -14,25 +8,22 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
-  constructor(
-    private storageService: StorageService,
-    private injector: Injector,
-    private router: Router
-  ) {}
+  private storageService = inject(StorageService);
+  private injector = inject(Injector);
+  private router = inject(Router);
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return from(this.storageService.get('auth_token')).pipe(
-      switchMap(token => {
+      switchMap((token) => {
         let authReq = request;
         if (token) {
           authReq = request.clone({
             setHeaders: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           });
         }
-        
+
         return next.handle(authReq).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
@@ -40,13 +31,13 @@ export class AuthInterceptor implements HttpInterceptor {
               // Usar Injector para evitar dependencia circular
               const authService = this.injector.get(AuthService);
               authService.logout().then(() => {
-                 this.router.navigate(['/auth']);
+                this.router.navigate(['/auth']);
               });
             }
             return throwError(() => error);
-          })
+          }),
         );
-      })
+      }),
     );
   }
 }

@@ -10,13 +10,7 @@ import { ResultPreviewPage } from './result-preview.page';
 import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ResultPreviewPageRoutingModule,
-    ComponentsModule
-  ],
-  declarations: [ResultPreviewPage]
+  imports: [CommonModule, FormsModule, IonicModule, ResultPreviewPageRoutingModule, ComponentsModule],
+  declarations: [ResultPreviewPage],
 })
 export class ResultPreviewPageModule {}

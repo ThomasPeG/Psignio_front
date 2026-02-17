@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AlertController } from '@ionic/angular';
 
@@ -9,6 +9,8 @@ import { AlertController } from '@ionic/angular';
   standalone: false,
 })
 export class AuthFormComponent {
+  private authService = inject(AuthService);
+  private alertController = inject(AlertController);
 
   @Output() authSuccess = new EventEmitter<any>();
 
@@ -18,11 +20,6 @@ export class AuthFormComponent {
   email = '';
   password = '';
   name = '';
-
-  constructor(
-    private authService: AuthService,
-    private alertController: AlertController
-  ) { }
 
   async loginWithGoogle() {
     if (this.isLoading) return;
@@ -40,7 +37,7 @@ export class AuthFormComponent {
       const alert = await this.alertController.create({
         header: 'Error',
         message: 'No se pudo iniciar sesión con Google.',
-        buttons: ['OK']
+        buttons: ['OK'],
       });
       await alert.present();
     } finally {
@@ -55,7 +52,7 @@ export class AuthFormComponent {
       const alert = await this.alertController.create({
         header: 'Datos incompletos',
         message: 'Por favor ingresa correo y contraseña.',
-        buttons: ['OK']
+        buttons: ['OK'],
       });
       await alert.present();
       return;
@@ -71,25 +68,26 @@ export class AuthFormComponent {
           const alert = await this.alertController.create({
             header: 'Datos incompletos',
             message: 'Por favor ingresa tu nombre.',
-            buttons: ['OK']
+            buttons: ['OK'],
           });
           await alert.present();
           return;
         }
-        result = await this.authService.register({ email: this.email, password: this.password, name: this.name }).toPromise();
+        result = await this.authService
+          .register({ email: this.email, password: this.password, name: this.name })
+          .toPromise();
       } else {
         result = await this.authService.login({ email: this.email, password: this.password }).toPromise();
       }
-      
-      this.authSuccess.emit(result);
 
+      this.authSuccess.emit(result);
     } catch (error: any) {
       console.error('Auth error:', error);
       const message = error.error?.message || 'Error de autenticación';
       const alert = await this.alertController.create({
         header: 'Error',
         message: message,
-        buttons: ['OK']
+        buttons: ['OK'],
       });
       await alert.present();
     } finally {

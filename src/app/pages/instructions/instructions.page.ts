@@ -1,21 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-instructions',
   templateUrl: './instructions.page.html',
   styleUrls: ['./instructions.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class InstructionsPage implements OnInit {
-
-  constructor(private router: Router) { }
-
-  ngOnInit() {
-  }
+export class InstructionsPage {
+  private router = inject(Router);
 
   start() {
     this.router.navigate(['/question'], { replaceUrl: true });
   }
-
 }

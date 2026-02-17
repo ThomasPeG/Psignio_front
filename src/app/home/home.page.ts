@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 
@@ -9,14 +9,14 @@ import { StorageService } from '../services/storage.service';
   standalone: false,
 })
 export class HomePage {
-
-  constructor(private router: Router, private storage: StorageService) {}
+  private router = inject(Router);
+  private storage = inject(StorageService);
 
   async startQuiz() {
     // Limpiamos cualquier progreso anterior para empezar de cero
     await this.storage.remove('currentAnswers');
     await this.storage.remove('currentQuestionIndex');
-    
+
     // Redirigir a la página de instrucciones antes del quiz
     this.router.navigate(['/instructions']);
   }
@@ -27,7 +27,7 @@ export class HomePage {
     // que la página de Auth piense que acaba de terminar un test.
     await this.storage.remove('currentAnswers');
     await this.storage.remove('currentQuestionIndex');
-    
+
     this.router.navigate(['/auth']);
   }
 }

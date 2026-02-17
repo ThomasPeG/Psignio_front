@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { QuestionPage } from './question.page';
+import { DeleteAccountPage } from './delete-account.page';
 
-describe('QuestionPage', () => {
-  let component: QuestionPage;
-  let fixture: ComponentFixture<QuestionPage>;
+describe('DeleteAccountPage', () => {
+  let component: DeleteAccountPage;
+  let fixture: ComponentFixture<DeleteAccountPage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionPage);
+    fixture = TestBed.createComponent(DeleteAccountPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

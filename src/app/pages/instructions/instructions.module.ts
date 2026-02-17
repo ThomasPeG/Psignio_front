@@ -9,12 +9,7 @@ import { InstructionsPageRoutingModule } from './instructions-routing.module';
 import { InstructionsPage } from './instructions.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    InstructionsPageRoutingModule
-  ],
-  declarations: [InstructionsPage]
+  imports: [CommonModule, FormsModule, IonicModule, InstructionsPageRoutingModule],
+  declarations: [InstructionsPage],
 })
 export class InstructionsPageModule {}

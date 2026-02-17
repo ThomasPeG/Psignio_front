@@ -1,6 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar >
-    
+  <ion-toolbar>
     <ion-buttons slot="end">
       <!-- <ion-button (click)="openEditModal()" color="light">
         <ion-icon slot="icon-only" name="create-outline"></ion-icon>
@@ -13,13 +12,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding app-bg">
-  
-  <h1 class="ion-text-center ion-margin-bottom" style="color: white;">Mi Panel</h1>
+  <h1 class="ion-text-center ion-margin-bottom" style="color: white">Mi Panel</h1>
 
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <div class="user-welcome ion-text-center ion-margin-bottom" *ngIf="user">
     <h2>¡Hola, {{ user.name || user.email }}!</h2>
     <p class="premium-badge" *ngIf="user.isPremium">🌟 Miembro Premium</p>
@@ -28,11 +26,10 @@
 
   <div *ngIf="isLoading" class="ion-text-center ion-padding">
     <ion-spinner name="crescent" color="light"></ion-spinner>
-    <p style="color: white;">Cargando tu historial...</p>
+    <p style="color: white">Cargando tu historial...</p>
   </div>
 
   <div *ngIf="!isLoading">
-    
     <div class="section-title">
       <h3>Mis Resultados</h3>
     </div>
@@ -47,16 +44,14 @@
       <div *ngFor="let attempt of history" class="history-card" (click)="viewResult(attempt)">
         <div class="card-content">
           <div class="card-info">
-            <h3 class="result-title">
-              {{ attempt.resultTypeName || 'Resultado' }}
-            </h3>
+            <h3 class="result-title">{{ attempt.resultTypeName || 'Resultado' }}</h3>
             <div class="status-row">
-               <span class="status-badge paid" *ngIf="attempt.is_paid">
-                 <ion-icon name="checkmark-circle"></ion-icon> Pagado
-               </span>
-               <span class="status-badge pending" *ngIf="!attempt.is_paid">
-                 <ion-icon name="time"></ion-icon> Pendiente
-               </span>
+              <span class="status-badge paid" *ngIf="attempt.is_paid">
+                <ion-icon name="checkmark-circle"></ion-icon> Pagado
+              </span>
+              <span class="status-badge pending" *ngIf="!attempt.is_paid">
+                <ion-icon name="time"></ion-icon> Pendiente
+              </span>
             </div>
             <p class="result-date">{{ attempt.date | date:'mediumDate' }}</p>
           </div>
@@ -79,15 +74,28 @@
       </ion-button>
     </div>
 
+    <div class="ion-padding-top ion-margin-top ion-text-center">
+      <ion-button fill="clear" color="light" size="small" routerLink="/delete-account" style="opacity: 0.7; font-size: 0.8rem;">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Eliminar mi cuenta
+      </ion-button>
+    </div>
   </div>
 
-  <ion-modal [isOpen]="isEditModalOpen" (didDismiss)="closeEditModal()" [initialBreakpoint]="0.45" [breakpoints]="[0, 0.45]" handleBehavior="cycle" class="custom-edit-modal">
+  <ion-modal
+    [isOpen]="isEditModalOpen"
+    (didDismiss)="closeEditModal()"
+    [initialBreakpoint]="0.45"
+    [breakpoints]="[0, 0.45]"
+    handleBehavior="cycle"
+    class="custom-edit-modal"
+  >
     <ng-template>
       <div class="edit-modal-content ion-padding">
         <div class="ion-text-center ion-margin-bottom">
-           <h3>Editar Perfil</h3>
+          <h3>Editar Perfil</h3>
         </div>
-        
+
         <div class="ion-padding-top">
           <ion-item lines="none" class="app-input-item">
             <ion-label position="stacked">Nombre</ion-label>
@@ -101,5 +109,4 @@
       </div>
     </ng-template>
   </ion-modal>
-
 </ion-content>

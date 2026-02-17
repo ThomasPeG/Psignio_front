@@ -6,8 +6,8 @@ import { PremiumResultPage } from './premium-result.page';
 const routes: Routes = [
   {
     path: '',
-    component: PremiumResultPage
-  }
+    component: PremiumResultPage,
+  },
 ];
 
 @NgModule({

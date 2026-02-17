@@ -10,13 +10,7 @@ import { AuthPage } from './auth.page';
 import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    AuthPageRoutingModule,
-    ComponentsModule
-  ],
-  declarations: [AuthPage]
+  imports: [CommonModule, FormsModule, IonicModule, AuthPageRoutingModule, ComponentsModule],
+  declarations: [AuthPage],
 })
 export class AuthPageModule {}

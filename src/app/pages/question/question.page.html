@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar style="--background: transparent;">
+  <ion-toolbar style="--background: transparent">
     <ion-buttons slot="start">
       <!-- Custom Back Button logic -->
       <ion-button *ngIf="currentQuestionIndex > 0" (click)="handleBack()" color="light">
@@ -10,7 +10,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-container">
     <ion-spinner name="crescent" color="light"></ion-spinner>
@@ -18,7 +17,6 @@
   </div>
 
   <div *ngIf="!isLoading && questions.length > 0" class="question-wrapper">
-    
     <!-- Top Section: Question Text -->
     <div class="question-header">
       <span class="question-number">Pregunta {{ currentQuestionIndex + 1 }} de {{ questions.length }}</span>
@@ -28,20 +26,19 @@
     <!-- Bottom Sheet: Options -->
     <div class="white-container options-sheet">
       <h3 class="options-title">Selecciona una respuesta</h3>
-      
+
       <div class="options-list">
-        <ion-button 
-          *ngFor="let option of currentQuestion.options" 
-          expand="block" 
+        <ion-button
+          *ngFor="let option of currentQuestion.options"
+          expand="block"
           class="white-btn"
           [class.selected-option]="isOptionSelected(option.value)"
-          (click)="selectOption(option.value)">
+          (click)="selectOption(option.value)"
+        >
           {{ option.label }}
           <ion-icon *ngIf="isOptionSelected(option.value)" slot="end" name="checkmark-circle"></ion-icon>
         </ion-button>
       </div>
     </div>
-    
   </div>
-
 </ion-content>

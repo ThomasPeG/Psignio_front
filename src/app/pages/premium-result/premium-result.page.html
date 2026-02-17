@@ -3,12 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/dashboard" text="" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
-    
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
   <div *ngIf="isLoadingPayment" class="loading-container">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Cargando tu resultado...</p>
@@ -27,7 +25,7 @@
         <div class="main-info">
           <h2 class="esencia-title">Esencia</h2>
           <p class="esencia-text">{{ result.result.dominant.esencia }}</p>
-          
+
           <div class="description-box ion-margin-top">
             <p>{{ result.result.dominant.description_full }}</p>
           </div>
@@ -84,66 +82,69 @@
 
     <!-- COMPATIBILIDADES (DYNAMIC) -->
     <div class="ion-padding-horizontal ion-margin-top">
-      <ion-button expand="block" color="tertiary" 
-                  (click)="loadCompatibilities()" 
-                  *ngIf="!compatibilitiesLoaded && !isLoadingCompatibilities">
+      <ion-button
+        expand="block"
+        color="tertiary"
+        (click)="loadCompatibilities()"
+        *ngIf="!compatibilitiesLoaded && !isLoadingCompatibilities"
+      >
         <ion-icon name="heart-outline" slot="start"></ion-icon>
         Ver Análisis de Compatibilidad
       </ion-button>
-    
+
       <div *ngIf="isLoadingCompatibilities" class="ion-text-center ion-padding">
         <ion-spinner name="crescent"></ion-spinner>
         <p>Cargando compatibilidades...</p>
       </div>
     </div>
-    
+
     <div *ngIf="compatibilitiesLoaded" class="compatibilities-container">
-        <div class="section-divider">
-          <h3>Compatibilidades Detalladas</h3>
-        </div>
-        
-        <ion-card *ngFor="let item of compatibilities" class="compatibility-card">
-          <ion-card-header>
-            <ion-card-title class="ion-text-wrap" style="font-size: 1.1rem;">
-                 <span *ngFor="let a of item.arquetipos; let i = index">
-                    {{ getArchetypeName(a) }}<span *ngIf="i < item.arquetipos.length - 1"> + </span>
-                 </span>
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-              <div *ngIf="item.atraccion && item.atraccion.length > 0" class="ion-margin-bottom">
-                 <p class="label">Atracción</p>
-                 <ul class="ion-no-margin ion-padding-start">
-                   <li *ngFor="let t of item.atraccion">{{t}}</li>
-                 </ul>
-              </div>
-              
-              <div *ngIf="item.luz && item.luz.length > 0" class="ion-margin-bottom">
-                 <p class="label">En Luz</p>
-                 <ul class="ion-no-margin ion-padding-start">
-                   <li *ngFor="let t of item.luz">{{t}}</li>
-                 </ul>
-              </div>
-              
-              <div *ngIf="item.sombra && item.sombra.length > 0" class="ion-margin-bottom">
-                 <p class="label">En Sombra</p>
-                 <ul class="ion-no-margin ion-padding-start">
-                   <li *ngFor="let t of item.sombra">{{t}}</li>
-                 </ul>
-              </div>
-              
-              <div *ngIf="item.conflicto && item.conflicto.length > 0" class="ion-margin-bottom">
-                 <p class="label">Conflicto</p>
-                 <ul class="ion-no-margin ion-padding-start">
-                   <li *ngFor="let t of item.conflicto">{{t}}</li>
-                 </ul>
-              </div>
-              
-              <div *ngIf="item.clave" class="quote-box">
-                 <p><strong>Clave:</strong> {{ item.clave }}</p>
-              </div>
-          </ion-card-content>
-        </ion-card>
+      <div class="section-divider">
+        <h3>Compatibilidades Detalladas</h3>
+      </div>
+
+      <ion-card *ngFor="let item of compatibilities" class="compatibility-card">
+        <ion-card-header>
+          <ion-card-title class="ion-text-wrap" style="font-size: 1.1rem">
+            <span *ngFor="let a of item.arquetipos; let i = index">
+              {{ getArchetypeName(a) }}<span *ngIf="i < item.arquetipos.length - 1"> + </span>
+            </span>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="item.atraccion && item.atraccion.length > 0" class="ion-margin-bottom">
+            <p class="label">Atracción</p>
+            <ul class="ion-no-margin ion-padding-start">
+              <li *ngFor="let t of item.atraccion">{{t}}</li>
+            </ul>
+          </div>
+
+          <div *ngIf="item.luz && item.luz.length > 0" class="ion-margin-bottom">
+            <p class="label">En Luz</p>
+            <ul class="ion-no-margin ion-padding-start">
+              <li *ngFor="let t of item.luz">{{t}}</li>
+            </ul>
+          </div>
+
+          <div *ngIf="item.sombra && item.sombra.length > 0" class="ion-margin-bottom">
+            <p class="label">En Sombra</p>
+            <ul class="ion-no-margin ion-padding-start">
+              <li *ngFor="let t of item.sombra">{{t}}</li>
+            </ul>
+          </div>
+
+          <div *ngIf="item.conflicto && item.conflicto.length > 0" class="ion-margin-bottom">
+            <p class="label">Conflicto</p>
+            <ul class="ion-no-margin ion-padding-start">
+              <li *ngFor="let t of item.conflicto">{{t}}</li>
+            </ul>
+          </div>
+
+          <div *ngIf="item.clave" class="quote-box">
+            <p><strong>Clave:</strong> {{ item.clave }}</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
     </div>
 
     <!-- ENERGIA -->
@@ -153,7 +154,7 @@
     <ion-card class="energy-card">
       <ion-card-content>
         <p class="intro-desc">{{ result.result.dominant.energia.descripcion }}</p>
-        
+
         <ion-grid>
           <ion-row>
             <ion-col size="6">
@@ -192,7 +193,7 @@
         <div class="quote-box">
           <p><em>"{{ result.result.dominant.victimizacion.frase }}"</em></p>
         </div>
-        
+
         <div class="detail-box">
           <h4>¿Cómo se ve?</h4>
           <ul>
@@ -244,13 +245,19 @@
       <ion-card-content>
         <ion-list lines="none" class="list-item-dinero">
           <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Talento:</strong> {{ result.result.dominant.dinero.talento }}</ion-label>
+            <ion-label class="ion-text-wrap"
+              ><strong>Talento:</strong> {{ result.result.dominant.dinero.talento }}</ion-label
+            >
           </ion-item>
           <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Riesgo:</strong> {{ result.result.dominant.dinero.riesgo }}</ion-label>
+            <ion-label class="ion-text-wrap"
+              ><strong>Riesgo:</strong> {{ result.result.dominant.dinero.riesgo }}</ion-label
+            >
           </ion-item>
           <ion-item>
-            <ion-label class="ion-text-wrap"><strong>Regla de Oro:</strong> {{ result.result.dominant.dinero.regla }}</ion-label>
+            <ion-label class="ion-text-wrap"
+              ><strong>Regla de Oro:</strong> {{ result.result.dominant.dinero.regla }}</ion-label
+            >
           </ion-item>
         </ion-list>
       </ion-card-content>
@@ -266,7 +273,7 @@
     <ion-card class="archetype-card secondary-card">
       <ion-card-content>
         <p class="description">{{ result.result.secondary.descripcion }}</p>
-        
+
         <div class="subsection ion-margin-top">
           <h4>Trabajo</h4>
           <p><strong>Ambiente:</strong> {{ result.result.secondary.trabajo.ambiente }}</p>
@@ -355,9 +362,7 @@
     </ion-card>
 
     <div class="actions ion-padding ion-margin-top">
-      <ion-button expand="block" (click)="goToDashboard()">
-        Ir al Dashboard
-      </ion-button>
+      <ion-button expand="block" (click)="goToDashboard()"> Ir al Dashboard </ion-button>
     </div>
 
     <div class="safe-area-spacer"></div>
@@ -365,24 +370,27 @@
 
   <!-- STATE: PREVIEW (NOT PAID) -->
   <div *ngIf="!isLoadingPayment && result && !result.result" class="content-container ion-padding ion-text-center">
-    
     <div class="blur-preview-container ion-margin-bottom ion-margin-top">
       <img [src]="previewImage" class="blur-image" />
       <div class="lock-icon">
-        <ion-icon name="lock-closed" style="font-size: 40px; color: white;"></ion-icon>
+        <ion-icon name="lock-closed" style="font-size: 40px; color: white"></ion-icon>
       </div>
     </div>
 
     <ion-card>
       <ion-card-header>
         <ion-card-subtitle>Parece que eres un...</ion-card-subtitle>
-        <ion-card-title color="primary" style="font-size: 2em;">{{ result.preview?.typeName || 'Arquetipo' }}</ion-card-title>
+        <ion-card-title color="primary" style="font-size: 2em"
+          >{{ result.preview?.typeName || 'Arquetipo' }}</ion-card-title
+        >
       </ion-card-header>
       <ion-card-content>
-        <p style="font-size: 1.2em; font-style: italic; margin-bottom: 20px;">"{{ result.preview?.snippet || '...' }}"</p>
-        
+        <p style="font-size: 1.2em; font-style: italic; margin-bottom: 20px">
+          "{{ result.preview?.snippet || '...' }}"
+        </p>
+
         <div class="blur-container ion-margin-top">
-          <div style="filter: blur(4px); user-select: none; opacity: 0.6;">
+          <div style="filter: blur(4px); user-select: none; opacity: 0.6">
             <h3>Tu Estilo en el Trabajo</h3>
             <p>Descubre cómo te comportas bajo presión, tus roles ideales y lo que debes evitar para no quemarte.</p>
             <h3>Tus Relaciones Sociales</h3>
@@ -392,14 +400,13 @@
             <h3>Tus Patrones de Sombra</h3>
             <p>Identifica esos comportamientos inconscientes que te sabotean y cómo transformarlos en luz.</p>
           </div>
-          
+
           <div class="lock-overlay">
             <ion-icon name="lock-closed" size="large" color="medium"></ion-icon>
-            <p style="font-weight: bold; color: #333; margin: 10px 0 0;">Análisis Completo Bloqueado</p>
-            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Desbloquea tu reporte detallado ahora.</p>
+            <p style="font-weight: bold; color: #333; margin: 10px 0 0">Análisis Completo Bloqueado</p>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 5px">Desbloquea tu reporte detallado ahora.</p>
           </div>
         </div>
-
       </ion-card-content>
     </ion-card>
 
@@ -407,8 +414,8 @@
       Desbloquear Informe Completo
       <ion-icon slot="end" name="card"></ion-icon>
     </ion-button>
-    
-    <p class="ion-text-small ion-margin-top" style="color: rgba(255,255,255,0.8);">
+
+    <p class="ion-text-small ion-margin-top" style="color: rgba(255, 255, 255, 0.8)">
       Obtén tu perfil detallado, consejos de carrera y relaciones por solo $4.99
     </p>
 
@@ -416,12 +423,15 @@
       Ir al Dashboard
       <ion-icon slot="end" name="grid-outline"></ion-icon>
     </ion-button>
-    
+
     <div class="safe-area-spacer"></div>
   </div>
 
   <!-- Fallback/Empty State -->
-  <div *ngIf="!isLoadingPayment && (!result || (!result.result && !result.preview))" class="ion-padding ion-text-center">
+  <div
+    *ngIf="!isLoadingPayment && (!result || (!result.result && !result.preview))"
+    class="ion-padding ion-text-center"
+  >
     <p>No se pudo cargar el resultado.</p>
     <ion-button (click)="goToDashboard()">Volver</ion-button>
   </div>

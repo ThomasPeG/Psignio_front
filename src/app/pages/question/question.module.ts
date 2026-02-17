@@ -9,12 +9,7 @@ import { QuestionPageRoutingModule } from './question-routing.module';
 import { QuestionPage } from './question.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    QuestionPageRoutingModule
-  ],
-  declarations: [QuestionPage]
+  imports: [CommonModule, FormsModule, IonicModule, QuestionPageRoutingModule],
+  declarations: [QuestionPage],
 })
 export class QuestionPageModule {}

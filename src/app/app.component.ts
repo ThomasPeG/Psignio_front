@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from './services/storage.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
@@ -12,11 +12,11 @@ import { StatusBar, Style } from '@capacitor/status-bar';
   standalone: false,
 })
 export class AppComponent {
-  constructor(
-    private storage: StorageService, 
-    private router: Router,
-    private platform: Platform
-  ) {
+  private storage = inject(StorageService);
+  private router = inject(Router);
+  private platform = inject(Platform);
+
+  constructor() {
     this.initializeApp();
   }
 
@@ -45,7 +45,7 @@ export class AppComponent {
 
     // Inicializar almacenamiento
     await this.storage.init();
-    
+
     // Verificar sesión existente
     const token = await this.storage.get('auth_token');
     if (token) {

@@ -4,8 +4,14 @@
     <ion-icon *ngIf="!isLoading" name="logo-google" slot="start"></ion-icon>
     {{ isLoading ? 'Conectando...' : 'Continuar con Google' }}
   </ion-button>
-  
-  <ion-button expand="block" fill="outline" class="email-toggle-btn" (click)="showEmailForm = !showEmailForm" [disabled]="isLoading">
+
+  <ion-button
+    expand="block"
+    fill="outline"
+    class="email-toggle-btn"
+    (click)="showEmailForm = !showEmailForm"
+    [disabled]="isLoading"
+  >
     <ion-icon name="mail-outline" slot="start"></ion-icon>
     Usar Correo y Contraseña
   </ion-button>
@@ -24,14 +30,26 @@
     <ion-label position="floating">Contraseña</ion-label>
     <ion-input type="password" [(ngModel)]="password" [disabled]="isLoading"></ion-input>
   </ion-item>
-  
-  <ion-button expand="block" class="white-btn action-btn ion-margin-top" (click)="submitEmailForm()" [disabled]="isLoading">
+
+  <ion-button
+    expand="block"
+    class="white-btn action-btn ion-margin-top"
+    (click)="submitEmailForm()"
+    [disabled]="isLoading"
+  >
     <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
     <span *ngIf="!isLoading">{{ isRegister ? 'Registrarse' : 'Iniciar Sesión' }}</span>
     <span *ngIf="isLoading">Procesando...</span>
   </ion-button>
 
-  <ion-button expand="block" fill="clear" size="small" class="switch-mode-btn" (click)="toggleMode()" [disabled]="isLoading">
+  <ion-button
+    expand="block"
+    fill="clear"
+    size="small"
+    class="switch-mode-btn"
+    (click)="toggleMode()"
+    [disabled]="isLoading"
+  >
     {{ isRegister ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate' }}
   </ion-button>
 </div>

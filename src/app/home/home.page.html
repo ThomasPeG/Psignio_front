@@ -1,6 +1,5 @@
 <ion-content [fullscreen]="true">
   <div class="home-wrapper">
-    
     <!-- Top Content -->
     <div class="header-content">
       <div class="header-group">
@@ -8,7 +7,7 @@
           <div class="logo-circle">
             <ion-icon name="prism"></ion-icon>
           </div>
-          <h1>Descubre tu<br>Arquetipo</h1>
+          <h1>Descubre tu<br />Arquetipo</h1>
         </div>
         <p class="subtitle">Explora tu personalidad con nuestro test basado en psicología junguiana.</p>
       </div>
@@ -24,7 +23,19 @@
       <ion-button expand="block" fill="clear" class="secondary-action" (click)="login()">
         Acceder / Crear Cuenta
       </ion-button>
-    </div>
 
+      <div class="footer-links ion-text-center ion-margin-top" style="display: flex; flex-direction: column; gap: 8px">
+        <a routerLink="/privacy-policy" style="text-decoration: none; font-size: 0.8rem; color: var(--ion-color-medium)"
+          >Política de Privacidad</a
+        >
+        <a
+          href="https://newwwebsite.com"
+          target="_blank"
+          style="text-decoration: none; font-size: 0.7rem; color: var(--ion-color-medium); opacity: 0.7"
+        >
+          Diseñado por newwwebsite.com
+        </a>
+      </div>
+    </div>
   </div>
 </ion-content>

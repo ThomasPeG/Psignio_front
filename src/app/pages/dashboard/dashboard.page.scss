@@ -1,7 +1,6 @@
-
 .user-welcome {
   color: white;
-  
+
   h2 {
     font-size: 1.5rem;
     margin-top: 10px;
@@ -34,7 +33,7 @@
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 
   &:active {
@@ -77,12 +76,12 @@
   padding: 2px 8px;
   border-radius: 12px;
   font-weight: 600;
-  
+
   &.paid {
     background-color: #d1e7dd;
     color: #0f5132;
   }
-  
+
   &.pending {
     background-color: #fff3cd;
     color: #664d03;
@@ -111,7 +110,7 @@
   border-radius: 20px;
   padding: 30px;
   color: #666;
-  
+
   ion-icon {
     font-size: 4rem;
     margin-bottom: 10px;
@@ -123,7 +122,7 @@
 ion-modal.custom-edit-modal {
   --background: transparent;
   --border-radius: 24px 24px 0 0;
-  
+
   &::part(content) {
     border-radius: 24px 24px 0 0;
   }
@@ -135,7 +134,7 @@ ion-modal.custom-edit-modal {
   flex-direction: column;
   background: #ffffff; /* Explicit white background */
   border-radius: 24px 24px 0 0;
-  
+
   h3 {
     color: #111111;
     margin-top: 10px;

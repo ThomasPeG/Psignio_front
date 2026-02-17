@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { QuizService } from '../../services/quiz';
@@ -14,18 +14,15 @@ import { Share } from '@capacitor/share';
   standalone: false,
 })
 export class DashboardPage implements OnInit, ViewWillEnter {
+  private authService = inject(AuthService);
+  private quizService = inject(QuizService);
+  private storageService = inject(StorageService);
+  private router = inject(Router);
+  private alertCtrl = inject(AlertController);
 
   user: any = null;
   history: QuizHistoryItem[] = [];
   isLoading = true;
-
-  constructor(
-    private authService: AuthService, 
-    private quizService: QuizService,
-    private storageService: StorageService,
-    private router: Router,
-    private alertCtrl: AlertController
-  ) { }
 
   ngOnInit() {
     this.loadProfile();
@@ -46,7 +43,7 @@ export class DashboardPage implements OnInit, ViewWillEnter {
       },
       error: () => {
         event.target.complete();
-      }
+      },
     });
   }
 
@@ -58,10 +55,10 @@ export class DashboardPage implements OnInit, ViewWillEnter {
       },
       error: (err) => {
         console.error('Error al cargar perfil:', err);
-        this.authService.getUser().then(u => {
+        this.authService.getUser().then((u) => {
           this.user = u;
         });
-      }
+      },
     });
   }
 
@@ -71,8 +68,8 @@ export class DashboardPage implements OnInit, ViewWillEnter {
       next: (data) => {
         console.log('Historial cargado RAW:', data);
         if (data && data.length > 0) {
-             console.log('Primer item del historial:', data[0]);
-             console.log('¿Tiene propiedad is_paid?:', 'is_paid' in data[0]);
+          console.log('Primer item del historial:', data[0]);
+          console.log('¿Tiene propiedad is_paid?:', 'is_paid' in data[0]);
         }
         this.history = data || [];
         this.isLoading = false;
@@ -81,7 +78,7 @@ export class DashboardPage implements OnInit, ViewWillEnter {
         console.error('Error al cargar historial:', err);
         this.isLoading = false;
         // Si falla el historial, mostramos array vacío pero mantenemos usuario si cargó
-      }
+      },
     });
   }
 
@@ -90,20 +87,21 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     if (this.history.length > 0 && !this.user?.isPremium) {
       const alert = await this.alertCtrl.create({
         header: 'Límite Gratuito',
-        message: 'Has alcanzado el límite de pruebas gratuitas. Hazte Premium para realizar tests ilimitados y desbloquear tus análisis completos.',
+        message:
+          'Has alcanzado el límite de pruebas gratuitas. Hazte Premium para realizar tests ilimitados y desbloquear tus análisis completos.',
         buttons: [
           {
             text: 'Cancelar',
-            role: 'cancel'
+            role: 'cancel',
           },
           {
             text: 'Ser Premium',
             handler: () => {
               this.router.navigate(['/payment'], { queryParams: { type: 'upgrade' } });
-            }
-          }
+            },
+          },
         ],
-        cssClass: 'custom-alert'
+        cssClass: 'custom-alert',
       });
       await alert.present();
       return;
@@ -113,7 +111,7 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     await this.storageService.remove('currentAnswers');
     await this.storageService.remove('currentQuestionIndex');
 
-    this.router.navigate(['/question']); 
+    this.router.navigate(['/question']);
   }
 
   isEditModalOpen = false;
@@ -142,12 +140,12 @@ export class DashboardPage implements OnInit, ViewWillEnter {
 
   async shareResult(attempt: QuizHistoryItem, event: Event) {
     event.stopPropagation();
-    
+
     // URL Base: Idealmente debería ser tu dominio web real
     // Si estás probando en local, puedes usar window.location.origin
     // Pero para compartir a otros, necesitas una URL pública.
     const baseUrl = 'https://psignio.netlify.app/'; // TODO: Reemplazar con dominio real
-    
+
     // Construimos el link con el ID del intento como referencia para el matchmaking
     const shareUrl = `${baseUrl}/match-landing?ref_attempt=${attempt._id}&ref_user=${this.user?._id || ''}`;
 
@@ -169,5 +167,4 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     await this.authService.logout();
     this.router.navigate(['/home']);
   }
-
 }

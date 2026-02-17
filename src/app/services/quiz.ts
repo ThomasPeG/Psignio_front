@@ -1,27 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Question, QuizResultResponse, QuizHistoryItem } from '../models/quiz.models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QuizService {
-  
+  private http = inject(HttpClient);
+
   // TODO: Ajusta esta URL a la dirección de tu backend real
   // Usar IP local para permitir acceso desde Android/iOS y Web en la misma red
   private apiUrl = environment.apiUrl;
-  
-  public lastResult: QuizResultResponse | undefined;
 
-  constructor(private http: HttpClient) {}
+  public lastResult: QuizResultResponse | undefined;
 
   getQuestions(): Observable<Question[]> {
     return this.http.get<Question[]>(`${this.apiUrl}/questions`);
   }
 
-  submitQuiz(answers: {questionId: number, value: number}[]): Observable<QuizResultResponse> {
+  submitQuiz(answers: { questionId: number; value: number }[]): Observable<QuizResultResponse> {
     // Enviamos el array directamente ya que el backend valida los campos questionId y value dentro de answers
     return this.http.post<QuizResultResponse>(`${this.apiUrl}/quiz/submit`, { answers });
   }

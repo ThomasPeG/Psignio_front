@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -9,12 +9,12 @@ export interface CreateIntentResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PaymentService {
-  private apiUrl = environment.apiUrl + '/payment';
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = environment.apiUrl + '/payment';
 
   createIntent(attemptId: string): Observable<CreateIntentResponse> {
     return this.http.post<CreateIntentResponse>(`${this.apiUrl}/create-intent`, { attemptId });

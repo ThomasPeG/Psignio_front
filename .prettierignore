@@ -1,0 +1,10 @@
+# Ignorar artefactos de compilación
+www/
+dist/
+node_modules/
+android/
+ios/
+
+# Archivos de configuración y lockfiles
+package-lock.json
+yarn.lock

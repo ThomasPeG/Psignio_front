@@ -28,9 +28,9 @@ h1 {
 .message-card {
   text-align: left;
   margin-bottom: 40px;
-  
+
   /* Text color between soft black and a bit darker */
-  color: #222222; 
+  color: #222222;
 }
 
 .intro {
@@ -45,14 +45,14 @@ h1 {
   align-items: center;
   margin-bottom: 15px;
   font-size: 1rem;
-  
+
   ion-icon {
     font-size: 24px;
     margin-right: 15px;
     /* Use primary color for icons inside the white card */
     color: var(--ion-color-primary);
   }
-  
+
   span {
     color: #333333;
   }

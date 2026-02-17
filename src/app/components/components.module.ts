@@ -6,11 +6,7 @@ import { AuthFormComponent } from './auth-form/auth-form.component';
 
 @NgModule({
   declarations: [AuthFormComponent],
-  imports: [
-    CommonModule,
-    IonicModule,
-    FormsModule
-  ],
-  exports: [AuthFormComponent]
+  imports: [CommonModule, IonicModule, FormsModule],
+  exports: [AuthFormComponent],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { QuizService } from '../../services/quiz';
 import { StorageService } from '../../services/storage.service';
 import { QuizHistoryItem } from '../../models/quiz.models';
-import { ViewWillEnter, AlertController } from '@ionic/angular';
+import { ViewWillEnter, AlertController, ActionSheetController } from '@ionic/angular';
 import { Share } from '@capacitor/share';
 
 @Component({
@@ -19,6 +19,7 @@ export class DashboardPage implements OnInit, ViewWillEnter {
   private storageService = inject(StorageService);
   private router = inject(Router);
   private alertCtrl = inject(AlertController);
+  private actionSheetCtrl = inject(ActionSheetController);
 
   user: any = null;
   history: QuizHistoryItem[] = [];
@@ -33,6 +34,35 @@ export class DashboardPage implements OnInit, ViewWillEnter {
     // Recargar historial y perfil cada vez que se entra a la vista
     this.loadHistory();
     this.loadProfile();
+  }
+
+  async openSettingsMenu() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Opciones',
+      buttons: [
+        {
+          text: 'Cerrar Sesión',
+          icon: 'log-out-outline',
+          handler: () => {
+            this.logout();
+          },
+        },
+        {
+          text: 'Eliminar Cuenta',
+          role: 'destructive',
+          icon: 'trash-outline',
+          handler: () => {
+            this.router.navigate(['/delete-account']);
+          },
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          icon: 'close-outline',
+        },
+      ],
+    });
+    await actionSheet.present();
   }
 
   handleRefresh(event: any) {

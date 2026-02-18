@@ -23,18 +23,7 @@ import { Router } from '@angular/router';
       color: var(--ion-color-danger);
       margin-bottom: 20px;
     }
-    h1 {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      color: var(--ion-color-dark);
-    }
-    p {
-      color: var(--ion-color-medium);
-      line-height: 1.5;
-      margin-bottom: 30px;
-      max-width: 400px;
-    }
+  
     .actions {
       width: 100%;
       max-width: 350px;
@@ -63,14 +52,14 @@ import { Router } from '@angular/router';
           Esta acción es <strong>irreversible</strong>. Si eliminas tu cuenta:
         </p>
         
-        <ul style="text-align: left; color: var(--ion-color-medium); margin-bottom: 30px; display: inline-block;">
+        <ul>
           <li>Perderás todos tus resultados y arquetipos.</li>
           <li>Perderás acceso a cualquier contenido premium comprado.</li>
           <li>Tus datos personales serán borrados de nuestros servidores.</li>
         </ul>
 
         <div class="actions">
-          <ion-button expand="block" color="medium" fill="outline" routerLink="/dashboard">
+          <ion-button expand="block" color="secondary" fill="outline" (click)="goBack()">
             Cancelar, quiero quedarme
           </ion-button>
           
@@ -90,6 +79,7 @@ export class DeleteAccountPage {
   private toastCtrl = inject(ToastController);
 
   async confirmDelete() {
+
     const alert = await this.alertCtrl.create({
       header: 'Confirmación Final',
       message: 'Por favor confirma que entiendes que esta acción no se puede deshacer y perderás todos tus datos.',
@@ -108,6 +98,10 @@ export class DeleteAccountPage {
       ]
     });
     await alert.present();
+  }
+
+  goBack() {
+    this.router.navigate(['/dashboard'], { replaceUrl: true });
   }
 
   async processDelete() {

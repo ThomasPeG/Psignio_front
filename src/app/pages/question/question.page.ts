@@ -148,7 +148,7 @@ export class QuestionPage implements OnInit {
 
         // Navegar a Premium Result (que actúa como preview y full result)
         this.router.navigate(['/premium-result'], {
-          queryParams: { id: response._id },
+          queryParams: { id: response.attemptId },
         });
       },
       error: async (err) => {

@@ -119,6 +119,9 @@ export interface QuizResultResponse {
   is_paid?: boolean;
   result?: QuizResultData;
   _id?: string;
+  attemptId?: string;
+
+
 
   // Compatibilidad: Campos planos que pueden venir del backend
   typeName?: string;

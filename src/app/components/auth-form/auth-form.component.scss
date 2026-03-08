@@ -6,13 +6,17 @@
 
 /* Google Button - Custom Blue */
 .google-btn {
-  --background: #4285f4 !important;
-  --color: white !important;
+  --background: #f2f2f2 !important;
+  --color: #1f1f1f !important;
   --border-radius: 50px;
-  --box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
-  font-weight: 500;
+  font-weight: 00;
   text-transform: none;
   margin: 0;
+}
+.google-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }
 
 /* Email Toggle Button - White Outline */
@@ -84,4 +88,18 @@
   text-transform: none;
   font-size: 0.9rem;
   margin-top: 12px;
+}
+
+.switch-mode-container {
+  margin-top: 24px;
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    a {
+      font-weight: bold;
+      color: #ffffff;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
 }

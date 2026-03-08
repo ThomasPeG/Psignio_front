@@ -97,5 +97,6 @@ export class AuthFormComponent {
 
   toggleMode() {
     this.isRegister = !this.isRegister;
+    this.showEmailForm = true; // Asegura que el formulario sea visible al cambiar de modo
   }
 }

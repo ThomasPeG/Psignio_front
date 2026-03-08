@@ -1,9 +1,19 @@
 <div class="buttons-container">
   <ion-button expand="block" class="google-btn" (click)="loginWithGoogle()" [disabled]="isLoading">
-    <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
-    <ion-icon *ngIf="!isLoading" name="logo-google" slot="start"></ion-icon>
-    {{ isLoading ? 'Conectando...' : 'Continuar con Google' }}
-  </ion-button>
+
+  <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+
+  <img 
+    *ngIf="!isLoading" 
+    src="../../../assets/imgs/google-logo.png" 
+    alt="Google" 
+    slot="start" 
+    class="google-icon"
+  />
+
+  {{ isLoading ? 'Conectando...' : 'Continuar con Google' }}
+</ion-button>
+
 
   <ion-button
     expand="block"
@@ -42,14 +52,9 @@
     <span *ngIf="isLoading">Procesando...</span>
   </ion-button>
 
-  <ion-button
-    expand="block"
-    fill="clear"
-    size="small"
-    class="switch-mode-btn"
-    (click)="toggleMode()"
-    [disabled]="isLoading"
-  >
-    {{ isRegister ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate' }}
-  </ion-button>
+</div>
+
+<div class="switch-mode-container ion-text-center">
+  <p *ngIf="!isRegister">¿No tienes cuenta? <a (click)="toggleMode()">Regístrate</a></p>
+  <p *ngIf="isRegister">¿Ya tienes cuenta? <a (click)="toggleMode()">Inicia sesión</a></p>
 </div>

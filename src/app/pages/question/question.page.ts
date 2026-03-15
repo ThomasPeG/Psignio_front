@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, AlertController, LoadingController } from '@ionic/angular';
-import { QuizService } from '../../services/quiz';
+import { QuizService } from '../../services/quiz.service';
 import { StorageService } from '../../services/storage.service';
 import { AuthService } from '../../services/auth.service';
 import { Question, QuizOption } from '../../models/quiz.models';

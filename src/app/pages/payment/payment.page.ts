@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
 import { PaymentService } from '../../services/payment.service';
-import { QuizService } from '../../services/quiz';
+import { QuizService } from '../../services/quiz.service';
 import { StorageService } from '../../services/storage.service';
 import { AuthService } from '../../services/auth.service';
 import { firstValueFrom } from 'rxjs';

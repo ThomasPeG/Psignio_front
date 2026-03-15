@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
-import { QuizService } from '../../services/quiz';
+import { QuizService } from '../../services/quiz.service';
 import { StorageService } from '../../services/storage.service';
 import { QuizResultResponse } from '../../models/quiz.models';
 

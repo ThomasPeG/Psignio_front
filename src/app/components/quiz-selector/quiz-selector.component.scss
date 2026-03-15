@@ -1,0 +1,50 @@
+:host {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+}
+
+ion-header {
+  ion-toolbar {
+    --background: #ffffff;
+    --border-color: #f0f0f0;
+  }
+  ion-title {
+    color: #000000;
+    font-weight: 600;
+  }
+  ion-button {
+    --color: #000000 !important;
+  }
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+ion-list {
+  background: transparent;
+}
+
+ion-item {
+  --background: transparent;
+  --border-color: #f0f0f0;
+
+  h2 {
+    color: #000000;
+    font-weight: 500;
+  }
+
+  p {
+    color: #666666;
+  }
+}
+
+.premium-prompt {
+  ion-card {
+    --background: #f4f5f7;
+    box-shadow: none;
+  }
+  p {
+    color: #333333;
+  }
+}

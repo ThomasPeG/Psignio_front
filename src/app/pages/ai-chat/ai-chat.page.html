@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border chat-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Chat con IA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="chat-container" #chatContainer>
+    <div *ngFor="let message of messages" class="message-wrapper">
+      <div class="message-bubble" 
+           [ngClass]="{ 'user-bubble': message.sender === 'user', 'ai-bubble': message.sender === 'ai' }">
+        <p *ngIf="message.content">{{ message.content }}</p>
+        <ion-spinner name="dots" *ngIf="!message.content && message.sender === 'ai'"></ion-spinner>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="input-toolbar">
+    <ion-textarea
+      [(ngModel)]="prompt"
+      placeholder="Escribe un mensaje..."
+      class="chat-input"
+      [autoGrow]="true"
+      (keyup.enter)="sendPrompt()"
+    ></ion-textarea>
+
+    <ion-buttons slot="end">
+      <ion-button class="send-button" (click)="sendPrompt()" [disabled]="!prompt.trim() || isLoading">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

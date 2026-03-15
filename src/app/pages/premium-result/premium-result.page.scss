@@ -1,4 +1,9 @@
 /* Reusing card styles from result-preview to ensure consistency */
+ion-header{
+  ion-button{
+    --color: #000000 !important;
+  }
+}
 ion-card {
   --background: var(--app-card-bg, #ffffff);
   border-radius: var(--app-card-radius, 24px);

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, from } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
-import { QuizService } from './quiz';
+import { QuizService } from './quiz.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
 import { environment } from '../../environments/environment';

@@ -137,6 +137,8 @@ export interface QuizResultResponse {
 export interface QuizHistoryItem {
   _id: string;
   date: string;
+  resultTypeId: number
+  secondaryTypeId: number
   resultTypeName: string;
   imageUrl?: string; // Keep for compatibility if used in lists
   snippet?: string; // Keep for compatibility

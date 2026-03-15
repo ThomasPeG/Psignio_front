@@ -54,6 +54,10 @@ const routes: Routes = [
     loadComponent: () => import('./pages/delete-account/delete-account.page').then( m => m.DeleteAccountPage),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'ai-chat',
+    loadComponent: () => import('./pages/ai-chat/ai-chat.page').then( m => m.AiChatPage)
+  },
 ];
 
 @NgModule({

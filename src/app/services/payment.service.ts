@@ -27,4 +27,8 @@ export class PaymentService {
   syncPayment(paymentIntentId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/sync`, { paymentIntentId });
   }
+
+  getPrices(): Observable<{priceAmount: number; premiumPriceAmount: number; currency: string}> {
+    return this.http.get<{priceAmount: number; premiumPriceAmount: number; currency: string}>(`${this.apiUrl}/prices`);
+  }
 }

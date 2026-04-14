@@ -31,7 +31,7 @@ export class PaymentPage implements OnInit {
 
   // Payment Mode: 'result' | 'upgrade'
   paymentMode: 'result' | 'upgrade' = 'result';
-  priceDisplay: string = '$2.99 USD';
+  priceDisplay: string = '...';
   productTitle: string = 'Desbloquea tu Potencial';
   productSubtitle: string = 'Obtén tu análisis de personalidad completo';
 
@@ -40,6 +40,19 @@ export class PaymentPage implements OnInit {
   }
 
   async initializePayment() {
+    // Fetch dynamic prices
+    let priceAmount = 299;
+    let premiumPriceAmount = 199;
+    let currencyStr = 'USD';
+    try {
+      const prices = await firstValueFrom(this.paymentService.getPrices());
+      priceAmount = prices.priceAmount;
+      premiumPriceAmount = prices.premiumPriceAmount;
+      currencyStr = prices.currency.toUpperCase();
+    } catch (error) {
+      console.warn('No se pudieron obtener los precios dinámicos, usando valores por defecto', error);
+    }
+
     // Intentar obtener parámetros de la URL
     const params = await firstValueFrom(this.route.queryParams);
     let attemptId = params['attemptId'];
@@ -48,12 +61,12 @@ export class PaymentPage implements OnInit {
     // Configurar modo
     if (type === 'upgrade') {
       this.paymentMode = 'upgrade';
-      this.priceDisplay = '$1.99 USD';
+      this.priceDisplay = `$${(premiumPriceAmount / 100).toFixed(2)} ${currencyStr}`;
       this.productTitle = 'Cuenta Premium';
       this.productSubtitle = 'Tests ilimitados y acceso exclusivo';
     } else {
       this.paymentMode = 'result';
-      this.priceDisplay = '$2.99 USD';
+      this.priceDisplay = `$${(priceAmount / 100).toFixed(2)} ${currencyStr}`;
       this.productTitle = 'Desbloquea tu Potencial';
       this.productSubtitle = 'Obtén tu análisis de personalidad completo';
 

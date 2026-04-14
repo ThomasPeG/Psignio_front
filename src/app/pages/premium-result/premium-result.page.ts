@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { QuizService } from '../../services/quiz.service';
 import { StorageService } from '../../services/storage.service';
+import { PaymentService } from '../../services/payment.service';
 import { QuizResultResponse } from '../../models/quiz.models';
 
 @Component({
@@ -11,19 +12,21 @@ import { QuizResultResponse } from '../../models/quiz.models';
   styleUrls: ['./premium-result.page.scss'],
   standalone: false,
 })
-export class PremiumResultPage {
+export class PremiumResultPage implements OnInit {
   private quizService = inject(QuizService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private storageService = inject(StorageService);
   private loadingCtrl = inject(LoadingController);
   private alertCtrl = inject(AlertController);
+  private paymentService = inject(PaymentService);
 
   result: QuizResultResponse | undefined;
   previewImage: string = 'assets/icon/favicon.png';
   isLoadingPayment = false;
   showPaymentWaitMessage = false;
   currentResultId: string | undefined;
+  priceDisplay: string = '$2.99 USD';
 
   // Compatibilities
   compatibilities: any[] = [];
@@ -34,6 +37,21 @@ export class PremiumResultPage {
     this.ionViewWillEnter().then(() => {
       event.target.complete();
     });
+  }
+
+  ngOnInit() {
+    this.fetchPrices();
+  }
+
+  async fetchPrices() {
+    try {
+      const prices = await this.paymentService.getPrices().toPromise();
+      if (prices) {
+        this.priceDisplay = `$${(prices.priceAmount / 100).toFixed(2)} ${prices.currency.toUpperCase()}`;
+      }
+    } catch (e) {
+      console.warn('Could not fetch prices', e);
+    }
   }
 
   refresh() {

@@ -1,5 +1,16 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/ai-chat" class="ai-header-btn">
+        <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+        Psignio AI
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">
+      <img src="assets/icons/icon-256.webp" alt="Psignio" style="height: 38px; vertical-align: middle; margin-top: 4px;" />
+    </ion-title>
+
     <ion-buttons slot="end">
       <ion-button (click)="openSettingsMenu()" color="light">
         <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
@@ -100,13 +111,5 @@
       </div>
     </ng-template>
   </ion-modal>
-
-
-    <div class="ai-button-container">
-      <ion-button class="ai-chat-button" expand="block" routerLink="/ai-chat">
-        <ion-icon name="sparkles-outline" slot="start"></ion-icon>
-        Psignio AI
-      </ion-button>
-    </div>
 
 </ion-content>

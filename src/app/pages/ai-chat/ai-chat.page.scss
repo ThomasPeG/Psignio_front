@@ -8,6 +8,29 @@ ion-header.chat-header {
     color: #000000 !important;
     font-weight: 600;
   }
+
+  .mode-toggle-container {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+
+    .mode-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-right: 4px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    ion-toggle {
+      --handle-width: 14px;
+      --handle-height: 14px;
+      --track-background: #ddd;
+      --track-background-checked: var(--ion-color-success);
+      width: 45px;
+    }
+  }
 }
 
 ion-content {

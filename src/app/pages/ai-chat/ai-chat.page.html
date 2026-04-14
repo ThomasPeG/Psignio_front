@@ -4,6 +4,12 @@
       <ion-back-button defaultHref="/dashboard" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-title>Chat con IA</ion-title>
+    <ion-buttons slot="end">
+      <div class="mode-toggle-container">
+        <ion-label class="mode-label">Amigo</ion-label>
+        <ion-toggle [(ngModel)]="isFriendMode" color="success"></ion-toggle>
+      </div>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

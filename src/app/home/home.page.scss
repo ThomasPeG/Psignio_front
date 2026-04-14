@@ -1,9 +1,11 @@
 .home-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Usar height 100% del ion-content */
+  height: 100%;
+  /* Usar height 100% del ion-content */
   justify-content: space-between;
-  overflow: hidden; /* Evitar scroll en el wrapper principal */
+  overflow: hidden;
+  /* Evitar scroll en el wrapper principal */
 }
 
 .header-content {
@@ -12,7 +14,8 @@
   flex-direction: column;
   justify-content: center;
   padding: 40px 24px;
-  overflow-y: auto; /* Permitir scroll si el contenido es demasiado largo incluso en modo compacto */
+  overflow-y: auto;
+  /* Permitir scroll si el contenido es demasiado largo incluso en modo compacto */
 }
 
 .logo-circle {
@@ -52,27 +55,31 @@ h1 {
   border-radius: 24px 24px 0 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  padding: 50px 24px calc(30px + env(safe-area-inset-bottom)) 24px; /* +20px padding top */
+  padding: 50px 24px calc(30px + env(safe-area-inset-bottom)) 24px;
+  /* +20px padding top */
 
   /* Fijar altura/comportamiento */
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 230px; /* +30px altura mínima */
+  min-height: 230px;
+  /* +30px altura mínima */
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
   z-index: 10;
 }
 
 .secondary-action {
-  --color: #666; /* Un poco más suave que el negro puro */
+  --color: #666;
+  /* Un poco más suave que el negro puro */
   margin-top: 10px;
 }
 
 /* --- RESPONSIVE ADJUSTMENTS FOR SHORT SCREENS --- */
 @media (max-height: 700px) {
   .header-content {
-    justify-content: flex-end; /* Empujar contenido hacia abajo cerca del bottom sheet */
+    justify-content: flex-end;
+    /* Empujar contenido hacia abajo cerca del bottom sheet */
     padding-bottom: 20px;
   }
 
@@ -89,7 +96,8 @@ h1 {
     width: 50px;
     height: 50px;
     border-radius: 14px;
-    margin-bottom: 0; /* Quitamos margen inferior */
+    margin-bottom: 0;
+    /* Quitamos margen inferior */
 
     ion-icon {
       font-size: 24px;
@@ -99,8 +107,10 @@ h1 {
   h1 {
     font-size: 2rem;
     margin-bottom: 0;
+
     br {
-      display: none; /* Quitamos salto de línea en título */
+      display: none;
+      /* Quitamos salto de línea en título */
     }
   }
 
@@ -110,8 +120,29 @@ h1 {
   }
 }
 
+.home-logo-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
 .home-logo {
   width: 90px;
   height: auto;
-  margin-bottom: 24px;
+  margin-bottom: 6px;
+}
+
+.app-brand-name {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  /* Cursiva elegante y moderna */
+  font-size: 1.8rem;
+  /* Más pequeña */
+  font-weight: 600;
+  font-style: italic;
+  /* Cursiva real */
+  letter-spacing: 1.5px;
+  margin: 0;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0.95;
 }

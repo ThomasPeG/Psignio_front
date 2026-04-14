@@ -27,8 +27,9 @@ export class AiChatPage {
   prompt: string = '';
   messages: Message[] = [];
   isLoading = false;
-  selectedArchetypeId: number| null = null; // Renombrada para mayor claridad
-  selectedSecondaryTypeId: number | null = null; // Nuevo campo para el segundo ID
+  selectedArchetypeId: number| null = null;
+  selectedSecondaryTypeId: number | null = null;
+  isFriendMode = false;
 
   ionViewWillEnter() {
     if (!this.selectedArchetypeId || !this.selectedSecondaryTypeId) {
@@ -95,7 +96,8 @@ export class AiChatPage {
     this.isLoading = true;
     this.messages.push({ content: '', sender: 'ai' });
 
-    this.aiService.getChatResponse(userPrompt, this.selectedArchetypeId, this.selectedSecondaryTypeId).subscribe({
+    const mode = this.isFriendMode ? 'friend' : 'mentor';
+    this.aiService.getChatResponse(userPrompt, this.selectedArchetypeId, this.selectedSecondaryTypeId, mode).subscribe({
       next: (res) => {
         this.messages[this.messages.length - 1].content = res.reply;
         this.isLoading = false;
